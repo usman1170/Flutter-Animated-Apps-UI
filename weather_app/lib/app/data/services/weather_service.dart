@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -9,7 +10,8 @@ import '../models/weather_models.dart';
 class WeatherService {
   static const _oneCallBase = 'https://api.openweathermap.org/data/3.0/onecall';
   static const _geoBase = 'https://api.openweathermap.org/geo/1.0/reverse';
-  static const _airBase = 'https://api.openweathermap.org/data/2.5/air_pollution';
+  static const _airBase =
+      'https://api.openweathermap.org/data/2.5/air_pollution';
 
   String get _apiKey => dotenv.env['WEATHER_API_KEY'] ?? '';
 
@@ -17,9 +19,7 @@ class WeatherService {
     required double lat,
     required double lon,
   }) async {
-    final uri = Uri.parse(
-      '$_geoBase?lat=$lat&lon=$lon&limit=1&appid=$_apiKey',
-    );
+    final uri = Uri.parse('$_geoBase?lat=$lat&lon=$lon&limit=1&appid=$_apiKey');
     final response = await http.get(uri);
     if (response.statusCode != 200) {
       throw Exception('Failed to fetch location info');
@@ -42,6 +42,7 @@ class WeatherService {
     if (response.statusCode != 200) {
       throw Exception('Failed to fetch weather');
     }
+    log("[WeatherData] ${response.body}");
     final decoded = json.decode(response.body) as Map<String, dynamic>;
     return WeatherResponse.fromJson(decoded);
   }
