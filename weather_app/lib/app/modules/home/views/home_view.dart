@@ -75,7 +75,7 @@ class HomeView extends GetView<HomeController> {
                       children: [
                         _SectionTitle(title: 'Next 7 Days'),
                         const SizedBox(height: 12),
-                        ...data.daily.take(7).toList().asMap().entries.map((
+                        ...data.daily.take(3).toList().asMap().entries.map((
                           entry,
                         ) {
                           final index = entry.key;
@@ -89,7 +89,7 @@ class HomeView extends GetView<HomeController> {
                                 Get.toNamed(
                                   Routes.FORECAST_DETAIL,
                                   arguments: {
-                                    'daily': daily,
+                                    'daily': data.daily.take(7).toList(),
                                     'location':
                                         '${location.city}, ${location.country}',
                                   },
@@ -97,7 +97,23 @@ class HomeView extends GetView<HomeController> {
                               },
                             ),
                           );
-                        }),
+                        }).toList(),
+                        const SizedBox(height: 8),
+                        Center(
+                          child: TextButton(
+                            onPressed: () {
+                              Get.toNamed(
+                                Routes.FORECAST_DETAIL,
+                                arguments: {
+                                  'daily': data.daily.take(7).toList(),
+                                  'location':
+                                      '${location.city}, ${location.country}',
+                                },
+                              );
+                            },
+                            child: const Text('See next 7 days forecast'),
+                          ),
+                        ),
                       ],
                     ),
                   ),
