@@ -10,16 +10,25 @@ class WeatherHeader extends StatelessWidget {
     super.key,
     required this.location,
     required this.weather,
+    required this.isSaved,
+    required this.isRefreshing,
+    required this.onSave,
+    required this.onChangeLocation,
   });
 
   final LocationInfo location;
   final WeatherResponse weather;
+  final bool isSaved;
+  final bool isRefreshing;
+  final VoidCallback onSave;
+  final VoidCallback onChangeLocation;
 
   @override
   Widget build(BuildContext context) {
     final current = weather.current;
-    final iconCode =
-        current.weather.isNotEmpty ? current.weather.first.icon : '01d';
+    final iconCode = current.weather.isNotEmpty
+        ? current.weather.first.icon
+        : '01d';
     return GlassCard(
       radius: 28,
       padding: const EdgeInsets.all(18),
@@ -31,18 +40,38 @@ class WeatherHeader extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      '${location.city}, ${location.country}',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            color: Colors.white,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            '${location.city}, ${location.country}',
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(color: Colors.white),
                           ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      formatDate(current.dt, pattern: 'EEE, MMM d · HH:mm'),
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        ),
+                        IconButton(
+                          onPressed: onChangeLocation,
+                          icon: const Icon(
+                            Icons.edit_location_alt,
                             color: Colors.white70,
                           ),
+                        ),
+                        if (!isSaved)
+                          IconButton(
+                            onPressed: onSave,
+                            icon: const Icon(
+                              Icons.bookmark_add,
+                              color: Color(0xFF9AD9FF),
+                            ),
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      formatDate(current.dt, pattern: 'EEE, MMM d · HH:mm'),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: Colors.white70),
                     ),
                   ],
                 ),
@@ -50,7 +79,7 @@ class WeatherHeader extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
-                  color: Colors.white.withOpacity(0.12),
+                  color: Colors.white.withAlpha(31),
                   padding: const EdgeInsets.all(6),
                   child: Image.network(
                     'https://openweathermap.org/img/wn/$iconCode@2x.png',
@@ -63,37 +92,52 @@ class WeatherHeader extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                '${current.temp.toStringAsFixed(0)}°',
-                style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                      color: Colors.white,
+          if (isRefreshing)
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: Text(
+                    'Refreshing weather…',
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleMedium?.copyWith(color: Colors.white70),
+                  ),
+                ),
+              ],
+            )
+          else
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  '${current.temp.toStringAsFixed(0)}°',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.displaySmall?.copyWith(color: Colors.white),
+                ),
+                const SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      current.weather.isNotEmpty
+                          ? current.weather.first.main
+                          : 'Clear',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleMedium?.copyWith(color: Colors.white),
                     ),
-              ),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    current.weather.isNotEmpty
-                        ? current.weather.first.main
-                        : 'Clear',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: Colors.white,
-                        ),
-                  ),
-                  Text(
-                    'Feels like ${current.feelsLike.toStringAsFixed(0)}°',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.white70,
-                        ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                    Text(
+                      'Feels like ${current.feelsLike.toStringAsFixed(0)}°',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: Colors.white70),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           const SizedBox(height: 16),
           Wrap(
             spacing: 12,
@@ -120,14 +164,14 @@ class _MetaChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.08),
+        color: Colors.white.withAlpha(20),
         borderRadius: BorderRadius.circular(14),
       ),
       child: Text(
         label,
-        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: Colors.white70,
-            ),
+        style: Theme.of(
+          context,
+        ).textTheme.labelSmall?.copyWith(color: Colors.white70),
       ),
     );
   }

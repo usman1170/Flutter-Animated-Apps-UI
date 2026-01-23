@@ -51,7 +51,7 @@ class _SunPathState extends State<SunPath>
                     shape: BoxShape.circle,
                     gradient: RadialGradient(
                       colors: [
-                        const Color(0xFFFFE7A3).withOpacity(0.25),
+                        const Color(0xFFFFE7A3).withAlpha(64),
                         Colors.transparent,
                       ],
                     ),
@@ -71,7 +71,7 @@ class _SunPathState extends State<SunPath>
                       handlerSize: 10,
                     ),
                     customColors: CustomSliderColors(
-                      trackColor: Colors.white.withOpacity(0.2),
+                      trackColor: Colors.white.withAlpha(51),
                       progressBarColor: const Color(0xFF9AD9FF),
                       dotColor: const Color(0xFFFFD56A),
                     ),

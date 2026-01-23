@@ -59,7 +59,7 @@ class ForecastCard extends StatelessWidget {
                 children: [
                   Icon(
                     _iconFor(daily),
-                    color: Colors.white,
+                    color: _iconColor(daily),
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -84,5 +84,16 @@ class ForecastCard extends StatelessWidget {
     if (main.contains('rain')) return Icons.grain;
     if (main.contains('cloud')) return Icons.cloud;
     return Icons.wb_sunny;
+  }
+
+  Color _iconColor(DailyWeather daily) {
+    final main = daily.weather.isNotEmpty
+        ? daily.weather.first.main.toLowerCase()
+        : '';
+    if (main.contains('rain')) return const Color(0xFF7AC6FF);
+    if (main.contains('cloud')) return const Color(0xFFB7D6F6);
+    if (main.contains('storm')) return const Color(0xFFFFC857);
+    if (main.contains('snow')) return const Color(0xFFD8F1FF);
+    return const Color(0xFFFFD56A);
   }
 }

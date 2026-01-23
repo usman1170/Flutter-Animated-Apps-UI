@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import '../utils/weather_kind.dart';
 
@@ -24,19 +23,10 @@ class _WeatherBackgroundState extends State<WeatherBackground>
       vsync: this,
       duration: const Duration(seconds: 12),
     )..repeat();
-    _stars = List.generate(40, (index) {
-      final rand = Random(index * 12 + 7);
+    _stars = List.generate(60, (index) {
+      final rand = Random(index * 19 + 11);
       return Offset(rand.nextDouble(), rand.nextDouble());
     });
-  }
-
-  @override
-  void didUpdateWidget(covariant WeatherBackground oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.kind != widget.kind) {
-      _controller.reset();
-      _controller.repeat();
-    }
   }
 
   @override
@@ -47,61 +37,61 @@ class _WeatherBackgroundState extends State<WeatherBackground>
 
   @override
   Widget build(BuildContext context) {
-    final colors = _gradientFor(widget.kind);
+    final kind = widget.kind;
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
+        final t = _controller.value;
         return Stack(
           fit: StackFit.expand,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: colors,
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 600),
+              child: Container(
+                key: ValueKey(kind),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: _gradientFor(kind),
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
                 ),
               ),
             ),
-            if (widget.kind == WeatherKind.sunnyDay) const _HorizonGlow(),
-            if (widget.kind == WeatherKind.clearNight ||
-                widget.kind == WeatherKind.cloudyNight)
-              const _NightHaze(),
-            if (widget.kind == WeatherKind.clearNight)
-              CustomPaint(painter: _StarPainter(_stars, _controller.value)),
-            if (widget.kind == WeatherKind.sunnyDay)
+            if (kind == WeatherKind.clearDay)
               Positioned(
-                top: 40 + (12 * sin(_controller.value * 2 * pi)),
+                top: 32 + (10 * sin(t * 2 * pi)),
                 right: 30,
-                child: _SunGlow(
-                  scale: 1.0 + 0.06 * sin(_controller.value * 2 * pi),
-                ),
+                child: _SunGlow(scale: 1.0 + 0.05 * sin(t * 2 * pi)),
               ),
-            if (widget.kind == WeatherKind.clearNight ||
-                widget.kind == WeatherKind.cloudyNight)
+            if (kind == WeatherKind.clearNight ||
+                kind == WeatherKind.cloudyNight)
               Positioned(
-                top: 60 + (6 * sin(_controller.value * 2 * pi)),
+                top: 52 + (6 * sin(t * 2 * pi)),
                 right: 40,
                 child: const _MoonGlow(),
               ),
-            if (widget.kind == WeatherKind.cloudyDay ||
-                widget.kind == WeatherKind.cloudyNight)
-              CustomPaint(
-                painter: _CloudPainter(_controller.value, widget.kind),
-              ),
-            if (widget.kind == WeatherKind.rain)
-              Stack(
-                children: [
-                  CustomPaint(
-                    painter: _CloudPainter(_controller.value, widget.kind),
-                  ),
-                  CustomPaint(
-                    painter: _RainPainter(_controller.value),
-                  ),
-                ],
-              ),
-            if (widget.kind == WeatherKind.fog)
-              _FogLayer(progress: _controller.value),
+            if (kind == WeatherKind.clearNight)
+              CustomPaint(painter: _StarPainter(_stars, t)),
+            if (kind == WeatherKind.clearDay)
+              CustomPaint(painter: _CloudPainter(t, opacity: 0.18)),
+            if (kind == WeatherKind.cloudyDay ||
+                kind == WeatherKind.cloudyNight)
+              CustomPaint(painter: _CloudPainter(t, opacity: 0.45)),
+            if (kind == WeatherKind.rain || kind == WeatherKind.thunderstorm)
+              CustomPaint(painter: _CloudPainter(t, opacity: 0.55)),
+            if (kind == WeatherKind.rain || kind == WeatherKind.thunderstorm)
+              CustomPaint(painter: _RainPainter(t)),
+            if (kind == WeatherKind.snow) CustomPaint(painter: _SnowPainter(t)),
+            if (kind == WeatherKind.fog) _FogLayer(progress: t),
+            if (kind == WeatherKind.rain ||
+                kind == WeatherKind.thunderstorm ||
+                kind == WeatherKind.snow ||
+                kind == WeatherKind.fog)
+              _MistOverlay(intensity: 0.12 + 0.05 * sin(t * 2 * pi)),
+            if (kind == WeatherKind.thunderstorm) _LightningFlash(progress: t),
+            if (_needsDarkOverlay(kind))
+              Container(color: Colors.black.withAlpha(46)),
           ],
         );
       },
@@ -111,25 +101,36 @@ class _WeatherBackgroundState extends State<WeatherBackground>
   List<Color> _gradientFor(WeatherKind kind) {
     switch (kind) {
       case WeatherKind.clearNight:
-        return const [Color(0xFF060B1E), Color(0xFF101B3F)];
+        return const [Color(0xFF050916), Color(0xFF111C3F)];
       case WeatherKind.cloudyNight:
         return const [Color(0xFF0B1533), Color(0xFF1B2E59)];
       case WeatherKind.rain:
         return const [Color(0xFF0B1A3B), Color(0xFF1F3E76)];
+      case WeatherKind.thunderstorm:
+        return const [Color(0xFF08132B), Color(0xFF162C52)];
+      case WeatherKind.snow:
+        return const [Color(0xFF2A4B78), Color(0xFF5A7CAA)];
       case WeatherKind.fog:
         return const [Color(0xFF1E2E4F), Color(0xFF3E5A7E)];
       case WeatherKind.cloudyDay:
         return const [Color(0xFF6EBBE7), Color(0xFF2F6EAD)];
-      case WeatherKind.sunnyDay:
+      case WeatherKind.clearDay:
         return const [Color(0xFF7CCBFF), Color(0xFF2C6AB5)];
     }
   }
+
+  bool _needsDarkOverlay(WeatherKind kind) {
+    return kind == WeatherKind.clearNight ||
+        kind == WeatherKind.cloudyNight ||
+        kind == WeatherKind.rain ||
+        kind == WeatherKind.thunderstorm;
+  }
 }
+
 class _SunGlow extends StatelessWidget {
   const _SunGlow({required this.scale});
 
   final double scale;
-
   @override
   Widget build(BuildContext context) {
     return Transform.scale(
@@ -141,8 +142,8 @@ class _SunGlow extends StatelessWidget {
           shape: BoxShape.circle,
           gradient: RadialGradient(
             colors: [
-              const Color(0xFFFFF7C2).withOpacity(0.9),
-              const Color(0xFFFFD27A).withOpacity(0.6),
+              const Color(0xFFFFF7C2).withAlpha(230),
+              const Color(0xFFFFD27A).withAlpha(153),
               Colors.transparent,
             ],
           ),
@@ -173,8 +174,8 @@ class _MoonGlow extends StatelessWidget {
         shape: BoxShape.circle,
         gradient: RadialGradient(
           colors: [
-            const Color(0xFFEAF2FF).withOpacity(0.9),
-            const Color(0xFF9AB8E3).withOpacity(0.45),
+            const Color(0xFFEAF2FF).withAlpha(230),
+            const Color(0xFF9AB8E3).withAlpha(115),
             Colors.transparent,
           ],
         ),
@@ -200,13 +201,13 @@ class _StarPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = Colors.white.withOpacity(0.8);
+    final paint = Paint()..color = Colors.white.withAlpha(204);
     for (final star in stars) {
       final twinkle = 0.4 + 0.6 * sin((progress + star.dx) * 2 * pi);
-      paint.color = Colors.white.withOpacity(twinkle);
+      paint.color = Colors.white.withAlpha((twinkle * 255).round());
       canvas.drawCircle(
         Offset(star.dx * size.width, star.dy * size.height * 0.6),
-        1.5,
+        1.3,
         paint,
       );
     }
@@ -217,89 +218,20 @@ class _StarPainter extends CustomPainter {
     return oldDelegate.progress != progress;
   }
 }
-class _RainPainter extends CustomPainter {
-  _RainPainter(this.progress);
+class _CloudPainter extends CustomPainter {
+  _CloudPainter(this.progress, {required this.opacity});
 
   final double progress;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.lightBlueAccent.withOpacity(0.65)
-      ..strokeWidth = 1.6
-      ..strokeCap = StrokeCap.round;
-    for (int i = 0; i < 110; i++) {
-      final x = (i * 13) % size.width;
-      final y = ((i * 31 + progress * 720) % size.height);
-      canvas.drawLine(Offset(x, y), Offset(x - 4, y + 14), paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _RainPainter oldDelegate) {
-    return oldDelegate.progress != progress;
-  }
-}
-class _FogLayer extends StatelessWidget {
-  const _FogLayer({required this.progress});
-
-  final double progress;
-
-  @override
-  Widget build(BuildContext context) {
-    final offset = 20 * sin(progress * 2 * pi);
-    return Stack(
-      children: [
-        Positioned(
-          left: -40 + offset,
-          right: 40 - offset,
-          top: 120,
-          child: _FogBand(opacity: 0.35),
-        ),
-        Positioned(
-          left: 20 - offset,
-          right: -20 + offset,
-          top: 200,
-          child: _FogBand(opacity: 0.25),
-        ),
-      ],
-    );
-  }
-}
-class _FogBand extends StatelessWidget {
-  const _FogBand({required this.opacity});
-
   final double opacity;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 70,
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(opacity),
-        borderRadius: BorderRadius.circular(50),
-      ),
-    );
-  }
-}
-class _CloudPainter extends CustomPainter {
-  _CloudPainter(this.progress, this.kind);
-
-  final double progress;
-  final WeatherKind kind;
-
-  @override
   void paint(Canvas canvas, Size size) {
-    final day = kind == WeatherKind.cloudyDay || kind == WeatherKind.rain;
-    final baseColor = day ? Colors.white : const Color(0xFFB9C9E8);
-    final opacity = day ? 0.7 : 0.45;
     final paint = Paint()
-      ..color = baseColor.withOpacity(opacity)
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 12);
-
-    _drawCloud(canvas, size, paint, 0.18, 0.12, 0.42, 0.16, 0.08, 0.8);
-    _drawCloud(canvas, size, paint, 0.62, 0.18, 0.48, 0.18, 0.06, 0.6);
-    _drawCloud(canvas, size, paint, 0.36, 0.28, 0.62, 0.2, 0.04, 0.5);
+      ..color = Colors.white.withAlpha((opacity * 255).round())
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 14);
+    _drawCloud(canvas, size, paint, 0.12, 0.12, 0.46, 0.18, 0.08, 0.7);
+    _drawCloud(canvas, size, paint, 0.58, 0.2, 0.52, 0.2, 0.02, 0.5);
+    _drawCloud(canvas, size, paint, 0.34, 0.32, 0.66, 0.22, 0.05, 0.35);
   }
 
   void _drawCloud(
@@ -318,7 +250,6 @@ class _CloudPainter extends CustomPainter {
     final y = cy * size.height;
     final w = width * size.width;
     final h = height * size.height;
-
     final path = Path()
       ..addOval(
         Rect.fromCircle(
@@ -349,52 +280,121 @@ class _CloudPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _CloudPainter oldDelegate) {
-    return oldDelegate.progress != progress || oldDelegate.kind != kind;
+    return oldDelegate.progress != progress || oldDelegate.opacity != opacity;
   }
 }
-class _HorizonGlow extends StatelessWidget {
-  const _HorizonGlow();
+class _RainPainter extends CustomPainter {
+  _RainPainter(this.progress);
+
+  final double progress;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.lightBlueAccent.withAlpha(166)
+      ..strokeWidth = 1.6
+      ..strokeCap = StrokeCap.round;
+    for (int i = 0; i < 120; i++) {
+      final x = (i * 13) % size.width;
+      final y = ((i * 31 + progress * 820) % size.height);
+      canvas.drawLine(Offset(x, y), Offset(x - 4, y + 14), paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _RainPainter oldDelegate) {
+    return oldDelegate.progress != progress;
+  }
+}
+
+class _SnowPainter extends CustomPainter {
+  _SnowPainter(this.progress);
+
+  final double progress;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..color = Colors.white.withAlpha(204);
+    for (int i = 0; i < 90; i++) {
+      final x = (i * 19) % size.width;
+      final y = ((i * 23 + progress * 220) % size.height);
+      final radius = 1.5 + (i % 3) * 0.6;
+      canvas.drawCircle(Offset(x, y), radius, paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _SnowPainter oldDelegate) {
+    return oldDelegate.progress != progress;
+  }
+}
+
+class _FogLayer extends StatelessWidget {
+  const _FogLayer({required this.progress});
+
+  final double progress;
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Container(
-        height: 220,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              const Color(0xFFFFF6C7).withOpacity(0.15),
-              Colors.transparent,
-            ],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-          ),
+    final offset = 20 * sin(progress * 2 * pi);
+    return Stack(
+      children: [
+        Positioned(
+          left: -40 + offset,
+          right: 40 - offset,
+          top: 120,
+          child: _FogBand(opacity: 0.35),
         ),
+        Positioned(
+          left: 20 - offset,
+          right: -20 + offset,
+          top: 200,
+          child: _FogBand(opacity: 0.25),
+        ),
+      ],
+    );
+  }
+}
+
+class _FogBand extends StatelessWidget {
+  const _FogBand({required this.opacity});
+
+  final double opacity;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 70,
+      decoration: BoxDecoration(
+        color: Colors.white.withAlpha((opacity * 255).round()),
+        borderRadius: BorderRadius.circular(50),
       ),
     );
   }
 }
-class _NightHaze extends StatelessWidget {
-  const _NightHaze();
+
+class _MistOverlay extends StatelessWidget {
+  const _MistOverlay({required this.intensity});
+
+  final double intensity;
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Container(
-        height: 220,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              const Color(0xFF091127).withOpacity(0.2),
-              Colors.transparent,
-            ],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-          ),
-        ),
-      ),
+    return Container(color: Colors.white.withAlpha((intensity * 255).round()));
+  }
+}
+
+class _LightningFlash extends StatelessWidget {
+  const _LightningFlash({required this.progress});
+
+  final double progress;
+
+  @override
+  Widget build(BuildContext context) {
+    final flicker = (sin(progress * 16 * pi) + sin(progress * 7 * pi)) * 0.5;
+    final opacity = flicker > 0.85 ? (flicker - 0.85) * 2.5 : 0.0;
+    return IgnorePointer(
+      child: Container(color: Colors.white.withAlpha((opacity * 255).round())),
     );
   }
 }

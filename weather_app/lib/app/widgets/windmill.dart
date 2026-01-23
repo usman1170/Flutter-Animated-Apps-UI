@@ -67,7 +67,7 @@ class _WindmillPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    final bladePaint = Paint()..color = Colors.white.withOpacity(0.85);
+    final bladePaint = Paint()..color = Colors.white.withAlpha(217);
     final hubPaint = Paint()..color = Colors.white;
 
     for (int i = 0; i < 4; i++) {

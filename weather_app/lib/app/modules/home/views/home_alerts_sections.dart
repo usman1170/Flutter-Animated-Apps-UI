@@ -24,16 +24,16 @@ class AirQualitySection extends StatelessWidget {
         children: [
           Text(
             'AQI $aqi · $label',
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: Colors.white,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleSmall?.copyWith(color: Colors.white),
           ),
           const SizedBox(height: 6),
           Text(
             _aqiAdvice(aqi),
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Colors.white70,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: Colors.white70),
           ),
           const SizedBox(height: 10),
           Wrap(
@@ -42,22 +42,22 @@ class AirQualitySection extends StatelessWidget {
             children: [
               InfoCard(
                 title: 'PM2.5',
-                value: '${airQuality!.components.pm25.toStringAsFixed(1)}',
+                value: airQuality!.components.pm25.toStringAsFixed(1),
                 icon: Icons.blur_on,
               ),
               InfoCard(
                 title: 'PM10',
-                value: '${airQuality!.components.pm10.toStringAsFixed(1)}',
+                value: airQuality!.components.pm10.toStringAsFixed(1),
                 icon: Icons.grain,
               ),
               InfoCard(
                 title: 'CO',
-                value: '${airQuality!.components.co.toStringAsFixed(1)}',
+                value: airQuality!.components.co.toStringAsFixed(1),
                 icon: Icons.air,
               ),
               InfoCard(
                 title: 'O3',
-                value: '${airQuality!.components.o3.toStringAsFixed(1)}',
+                value: airQuality!.components.o3.toStringAsFixed(1),
                 icon: Icons.bubble_chart,
               ),
             ],
@@ -116,34 +116,36 @@ class AlertsSection extends StatelessWidget {
       title: 'Alerts',
       child: Column(
         children: alerts
-            .map((alert) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        alert.event,
-                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                              color: Colors.white,
-                            ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '${formatTime(alert.start)} - ${formatTime(alert.end)}',
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                              color: Colors.white70,
-                            ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        alert.description,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Colors.white70,
-                            ),
-                      ),
-                    ],
-                  ),
-                ))
+            .map(
+              (alert) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      alert.event,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleSmall?.copyWith(color: Colors.white),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '${formatTime(alert.start)} - ${formatTime(alert.end)}',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelSmall?.copyWith(color: Colors.white70),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      alert.description,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: Colors.white70),
+                    ),
+                  ],
+                ),
+              ),
+            )
             .toList(),
       ),
     );

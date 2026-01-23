@@ -5,6 +5,7 @@ import '../../../utils/formatters.dart';
 import '../../../widgets/glass_card.dart';
 import '../../../widgets/pressure_gauge.dart';
 import '../../../widgets/windmill.dart';
+import '../../../widgets/wind_compass.dart';
 import 'home_section_widgets.dart';
 
 class TemperatureDetailsSection extends StatelessWidget {
@@ -51,7 +52,8 @@ class WindSection extends StatelessWidget {
     final current = weather.current;
     return GlassCard(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: .center,
+        mainAxisAlignment: .center,
         children: [
           Row(
             children: [
@@ -65,21 +67,34 @@ class WindSection extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          _CompactRow(
-            label: 'Speed',
-            value: '${current.windSpeed.toStringAsFixed(1)} m/s',
+          const SizedBox(height: 10),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    _CompactRow(
+                      label: 'Speed',
+                      value: '${current.windSpeed.toStringAsFixed(1)} m/s',
+                    ),
+                    _CompactRow(
+                      label: 'Gust',
+                      value: current.windGust == null
+                          ? '—'
+                          : '${current.windGust?.toStringAsFixed(1)} m/s',
+                    ),
+                    _CompactRow(
+                      label: 'Direction',
+                      value:
+                          '${current.windDeg}° ${windDirection(current.windDeg)}',
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          _CompactRow(
-            label: 'Gust',
-            value: current.windGust == null
-                ? '—'
-                : '${current.windGust?.toStringAsFixed(1)} m/s',
-          ),
-          _CompactRow(
-            label: 'Direction',
-            value: '${current.windDeg}° ${windDirection(current.windDeg)}',
-          ),
+          WindCompass(degrees: current.windDeg),
         ],
       ),
     );
@@ -297,9 +312,9 @@ class _PillIconState extends State<_PillIcon>
             width: 34,
             height: 34,
             decoration: BoxDecoration(
-              color: widget.color.withOpacity(0.22),
+              color: widget.color.withAlpha(56),
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: widget.color.withOpacity(0.5)),
+              border: Border.all(color: widget.color.withAlpha(128)),
             ),
             child: Icon(widget.icon, color: widget.color),
           ),
@@ -318,7 +333,7 @@ class _CompactRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         children: [
           SizedBox(

@@ -27,15 +27,17 @@ class GlassCard extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Colors.white.withOpacity(opacity + 0.08),
-                Colors.white.withOpacity(opacity),
+                Colors.white.withAlpha(
+                  ((opacity + 0.08).clamp(0.0, 1.0) * 255).round(),
+                ),
+                Colors.white.withAlpha((opacity * 255).round()),
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(radius),
             border: Border.all(
-              color: Colors.white.withOpacity(0.18),
+              color: Colors.white.withAlpha(46),
               width: 1,
             ),
           ),

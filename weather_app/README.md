@@ -1,16 +1,50 @@
-# weather_app
+# SkyPulse
 
-A new Flutter project.
+SkyPulse is a modern Flutter weather experience with animated sky scenes,
+glassmorphism UI, and rich forecast detail. It uses OpenWeatherMap and supports
+dynamic day/night themes, smooth motion, and a clean GetX architecture.
 
-## Getting Started
+## Highlights
+- Dynamic animated weather backgrounds (clear, clouds, rain, snow, fog, storm)
+- Glass UI cards with modern motion
+- Hourly forecast curve with temperature gradient
+- 7-day forecast with expandable cards
+- Location search + saved cities (Hive)
+- Light/dark theme based on sun position
 
-This project is a starting point for a Flutter application.
+## Tech Stack
+- Flutter (Material 3)
+- GetX (routing/state)
+- OpenWeatherMap API
+- Hive (local storage)
 
-A few resources to get you started if this is your first Flutter project:
+## Setup
+1. Add your OpenWeatherMap key in `.env`:
+   ```env
+   WEATHER_API_KEY=YOUR_KEY
+   ```
+2. Install dependencies:
+   ```bash
+   flutter pub get
+   ```
+3. Run:
+   ```bash
+   flutter run
+   ```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Project Structure
+```
+lib/
+  app/
+    data/
+    modules/
+    routes/
+    theme/
+    utils/
+    widgets/
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Notes
+- The app name and package ID are set to `SkyPulse` and `com.usman1170.skypulse`.
+- Icons are generated and stored in platform-specific folders; update `assets/logo.png`
+  if you want a new brand mark.

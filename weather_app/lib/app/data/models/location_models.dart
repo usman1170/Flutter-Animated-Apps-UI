@@ -1,8 +1,5 @@
 class LocationInfo {
-  LocationInfo({
-    required this.city,
-    required this.country,
-  });
+  LocationInfo({required this.city, required this.country});
 
   final String city;
   final String country;

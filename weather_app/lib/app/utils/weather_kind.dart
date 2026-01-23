@@ -1,1 +1,10 @@
-enum WeatherKind { sunnyDay, clearNight, cloudyDay, cloudyNight, rain, fog }
+enum WeatherKind {
+  clearDay,
+  clearNight,
+  cloudyDay,
+  cloudyNight,
+  rain,
+  thunderstorm,
+  snow,
+  fog
+}

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../data/models/weather_models.dart';
 import '../../../utils/formatters.dart';
+import '../../../widgets/weather_background.dart';
 import '../../../widgets/glass_card.dart';
 import '../controllers/forecast_detail_controller.dart';
 
@@ -15,56 +16,52 @@ class ForecastDetailView extends GetView<ForecastDetailController> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF0B1736), Color(0xFF132A58)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.chevron_left, color: Colors.white),
-                      onPressed: () => Get.back(),
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      controller.locationLabel,
-                      style: theme.textTheme.titleLarge
-                          ?.copyWith(color: Colors.white),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Next 7 Days',
-                  style:
-                      theme.textTheme.bodyMedium?.copyWith(color: Colors.white70),
-                ),
-                const SizedBox(height: 16),
-                Expanded(
-                  child: daily.isEmpty
-                      ? Center(
-                          child: Text(
-                            'No forecast available',
-                            style: theme.textTheme.bodyMedium
-                                ?.copyWith(color: Colors.white70),
-                          ),
-                        )
-                      : _ForecastList(daily: daily),
-                ),
-              ],
+      body: Stack(
+        children: [
+          WeatherBackground(kind: controller.kind),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.chevron_left, color: Colors.white),
+                        onPressed: () => Get.back(),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        controller.locationLabel,
+                        style: theme.textTheme.titleLarge
+                            ?.copyWith(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Next 7 Days',
+                    style: theme.textTheme.bodyMedium
+                        ?.copyWith(color: Colors.white70),
+                  ),
+                  const SizedBox(height: 16),
+                  Expanded(
+                    child: daily.isEmpty
+                        ? Center(
+                            child: Text(
+                              'No forecast available',
+                              style: theme.textTheme.bodyMedium
+                                  ?.copyWith(color: Colors.white70),
+                            ),
+                          )
+                        : _ForecastList(daily: daily),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -211,7 +208,7 @@ class _SummaryRow extends StatelessWidget {
           children: [
             Icon(
               _iconFor(daily),
-              color: Colors.white,
+              color: _iconColor(daily),
             ),
             const SizedBox(height: 4),
             Text(
@@ -233,6 +230,17 @@ class _SummaryRow extends StatelessWidget {
     if (main.contains('rain')) return Icons.grain;
     if (main.contains('cloud')) return Icons.cloud;
     return Icons.wb_sunny;
+  }
+
+  Color _iconColor(DailyWeather daily) {
+    final main = daily.weather.isNotEmpty
+        ? daily.weather.first.main.toLowerCase()
+        : '';
+    if (main.contains('rain')) return const Color(0xFF7AC6FF);
+    if (main.contains('cloud')) return const Color(0xFFB7D6F6);
+    if (main.contains('storm')) return const Color(0xFFFFC857);
+    if (main.contains('snow')) return const Color(0xFFD8F1FF);
+    return const Color(0xFFFFD56A);
   }
 }
 

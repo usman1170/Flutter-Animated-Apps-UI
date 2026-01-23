@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../data/models/city_models.dart';
 import '../../../data/services/location_service.dart';
+import '../../../widgets/glass_card.dart';
 import '../controllers/location_controller.dart';
 
 class LocationView extends GetView<LocationController> {
@@ -24,141 +26,148 @@ class LocationView extends GetView<LocationController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 12),
                 Row(
                   children: [
                     IconButton(
                       icon: const Icon(Icons.chevron_left, color: Colors.white),
-                      onPressed: () {},
+                      onPressed: () => Get.back(),
                     ),
                     const SizedBox(width: 4),
                     Text(
                       'Pick Location',
-                      style:
-                          Theme.of(context).textTheme.titleLarge?.copyWith(
-                                color: Colors.white,
-                              ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleLarge?.copyWith(color: Colors.white),
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  'Find the area or city to see detailed forecasts.',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.white70,
-                      ),
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.08),
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                  child: Row(
-                    children: const [
-                      Icon(Icons.search, color: Colors.white70),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'Search city',
-                          style: TextStyle(color: Colors.white54),
-                        ),
-                      ),
-                      Icon(Icons.my_location, color: Colors.white70),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 28),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Row(
-                          children: const [
-                            _GhostLocationCard(
-                              title: 'Montreal',
-                              temp: '8°',
-                              icon: Icons.ac_unit,
-                            ),
-                            SizedBox(width: 14),
-                            _GhostLocationCard(
-                              title: 'Tokyo',
-                              temp: '12°',
-                              icon: Icons.cloud,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 14),
-                      Expanded(
-                        child: Row(
-                          children: const [
-                            _GhostLocationCard(
-                              title: 'Taipei',
-                              temp: '20°',
-                              icon: Icons.wb_cloudy,
-                            ),
-                            SizedBox(width: 14),
-                            _GhostLocationCard(
-                              title: 'Toronto',
-                              temp: '12°',
-                              icon: Icons.thunderstorm,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 const SizedBox(height: 12),
-                Center(
-                  child: AnimatedBuilder(
-                    animation: controller.pulseController,
-                    builder: (context, child) {
-                      final pulse =
-                          0.9 + (controller.pulseController.value * 0.2);
-                      return Transform.scale(
-                        scale: pulse,
-                        child: child,
-                      );
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 28,
-                        vertical: 14,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF5FB8FF),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Obx(() {
-                        final status = controller.status.value;
-                        final isChecking = controller.isChecking.value;
-                        final label = isChecking
-                            ? 'Checking...'
-                            : status == LocationStatus.deniedForever
-                                ? 'Open Settings'
-                                : 'Allow Location';
-                        return GestureDetector(
-                          onTap: isChecking
-                              ? null
-                              : () {
-                                  controller.requestPermission();
-                                },
-                          child: Text(
-                            label,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelLarge
-                                ?.copyWith(color: Colors.white),
-                          ),
-                        );
-                      }),
+                Text(
+                  'Search for a city and tap to use it. Saved locations appear below.',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
+                ),
+                const SizedBox(height: 16),
+                GlassCard(
+                  radius: 18,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TextField(
+                    controller: controller.searchController,
+                    style: const TextStyle(color: Colors.white),
+                    cursorColor: Colors.white70,
+                    onChanged: controller.searchCity,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Search city',
+                      hintStyle: TextStyle(color: Colors.white54),
+                      prefixIcon: Icon(Icons.search, color: Colors.white70),
+                      contentPadding: EdgeInsets.symmetric(vertical: 11),
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
+                Obx(() {
+                  if (controller.isSearching.value) {
+                    return const LinearProgressIndicator();
+                  }
+                  return const SizedBox.shrink();
+                }),
+                const SizedBox(height: 12),
+                Expanded(
+                  child: Obx(() {
+                    return ListView(
+                      children: [
+                        if (controller.results.isNotEmpty) ...[
+                          _SectionLabel(title: 'Results'),
+                          const SizedBox(height: 8),
+                          ...controller.results.map(
+                            (city) => _CityTile(
+                              city: city,
+                              onTap: () => controller.selectCity(city),
+                              trailing: const Icon(
+                                Icons.north_east,
+                                color: Colors.white70,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                        _SectionLabel(title: 'Saved Locations'),
+                        const SizedBox(height: 8),
+                        if (controller.saved.isEmpty)
+                          Text(
+                            'No saved cities yet.',
+                            style: Theme.of(context).textTheme.bodyMedium
+                                ?.copyWith(color: Colors.white60),
+                          )
+                        else
+                          ...controller.saved.map(
+                            (city) => _CityTile(
+                              city: city,
+                              onTap: () => controller.selectCity(city),
+                              trailing: IconButton(
+                                icon: const Icon(
+                                  Icons.close,
+                                  color: Colors.white70,
+                                ),
+                                onPressed: () => controller.removeCity(city),
+                              ),
+                            ),
+                          ),
+                        const SizedBox(height: 20),
+                        Center(
+                          child: AnimatedBuilder(
+                            animation: controller.pulseController,
+                            builder: (context, child) {
+                              final pulse =
+                                  0.9 +
+                                  (controller.pulseController.value * 0.2);
+                              return Transform.scale(
+                                scale: pulse,
+                                child: child,
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 28,
+                                vertical: 14,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF5FB8FF),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Obx(() {
+                                final status = controller.status.value;
+                                final isChecking = controller.isChecking.value;
+                                final label = isChecking
+                                    ? 'Checking...'
+                                    : status == LocationStatus.deniedForever
+                                    ? 'Open Settings'
+                                    : 'Use Device Location';
+                                return GestureDetector(
+                                  onTap: isChecking
+                                      ? null
+                                      : () {
+                                          controller.requestPermission();
+                                        },
+                                  child: Text(
+                                    label,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge
+                                        ?.copyWith(color: Colors.white),
+                                  ),
+                                );
+                              }),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    );
+                  }),
+                ),
               ],
             ),
           ),
@@ -168,45 +177,57 @@ class LocationView extends GetView<LocationController> {
   }
 }
 
-class _GhostLocationCard extends StatelessWidget {
-  const _GhostLocationCard({
-    required this.title,
-    required this.temp,
-    required this.icon,
-  });
+class _SectionLabel extends StatelessWidget {
+  const _SectionLabel({required this.title});
 
   final String title;
-  final String temp;
-  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.08),
-          borderRadius: BorderRadius.circular(22),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              temp,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: Colors.white,
-                  ),
-            ),
-            const SizedBox(height: 8),
-            Icon(icon, color: Colors.white70),
-            const Spacer(),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.white70,
-                  ),
-            ),
-          ],
+    return Text(
+      title,
+      style: Theme.of(
+        context,
+      ).textTheme.titleSmall?.copyWith(color: Colors.white),
+    );
+  }
+}
+
+class _CityTile extends StatelessWidget {
+  const _CityTile({
+    required this.city,
+    required this.onTap,
+    required this.trailing,
+  });
+
+  final CityLocation city;
+  final VoidCallback onTap;
+  final Widget trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: GestureDetector(
+        onTap: onTap,
+        child: GlassCard(
+          radius: 16,
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          child: Row(
+            children: [
+              const Icon(Icons.location_on, color: Color(0xFF9AD9FF)),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  city.displayName,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                ),
+              ),
+              trailing,
+            ],
+          ),
         ),
       ),
     );

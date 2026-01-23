@@ -1,15 +1,15 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/location_models.dart';
 import '../models/weather_models.dart';
+import '../models/city_models.dart';
 
 class WeatherService {
   static const _oneCallBase = 'https://api.openweathermap.org/data/3.0/onecall';
   static const _geoBase = 'https://api.openweathermap.org/geo/1.0/reverse';
+  static const _geoDirectBase = 'https://api.openweathermap.org/geo/1.0/direct';
   static const _airBase =
       'https://api.openweathermap.org/data/2.5/air_pollution';
 
@@ -31,6 +31,21 @@ class WeatherService {
     return LocationInfo.fromJson(decoded.first as Map<String, dynamic>);
   }
 
+  Future<List<CityLocation>> searchCities(String query) async {
+    if (query.isEmpty) return [];
+    final uri = Uri.parse(
+      '$_geoDirectBase?q=${Uri.encodeComponent(query)}&limit=6&appid=$_apiKey',
+    );
+    final response = await http.get(uri);
+    if (response.statusCode != 200) {
+      throw Exception('Failed to search cities');
+    }
+    final decoded = json.decode(response.body) as List<dynamic>;
+    return decoded
+        .map((e) => CityLocation.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
   Future<WeatherResponse> fetchWeather({
     required double lat,
     required double lon,
@@ -42,7 +57,6 @@ class WeatherService {
     if (response.statusCode != 200) {
       throw Exception('Failed to fetch weather');
     }
-    log("[WeatherData] ${response.body}");
     final decoded = json.decode(response.body) as Map<String, dynamic>;
     return WeatherResponse.fromJson(decoded);
   }

@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 
 import '../../../routes/app_pages.dart';
 import '../../../utils/formatters.dart';
-import '../../../widgets/animated_entry.dart';
 import '../../../widgets/forecast_card.dart';
 import '../../../widgets/glass_card.dart';
 import '../../../widgets/hourly_strip.dart';
 import '../../../widgets/sun_path.dart';
 import '../../../widgets/weather_background.dart';
+import '../../../widgets/weather_loading.dart';
 import '../controllers/home_controller.dart';
 import 'home_alerts_sections.dart';
 import 'home_detail_sections.dart';
@@ -22,7 +22,7 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       body: Obx(() {
         if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const WeatherLoading();
         }
         if (controller.error.value.isNotEmpty) {
           return _ErrorState(
@@ -49,16 +49,21 @@ class HomeView extends GetView<HomeController> {
           children: [
             WeatherBackground(kind: controller.kind.value),
             SafeArea(
-              child: ListView(
-                padding: const EdgeInsets.all(20),
-                children: [
-                  AnimatedEntry(
-                    child: WeatherHeader(location: location, weather: data),
-                  ),
-                  const SizedBox(height: 20),
-                  AnimatedEntry(
-                    index: 1,
-                    child: Column(
+              child: RefreshIndicator(
+                onRefresh: controller.refreshWeather,
+                child: ListView(
+                  padding: const EdgeInsets.all(20),
+                  children: [
+                    WeatherHeader(
+                      location: location,
+                      weather: data,
+                      isSaved: controller.isCurrentSaved(),
+                      isRefreshing: controller.isRefreshing.value,
+                      onSave: controller.saveCurrentCity,
+                      onChangeLocation: controller.changeLocation,
+                    ),
+                    const SizedBox(height: 20),
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _SectionTitle(title: 'Hourly Forecast'),
@@ -66,100 +71,81 @@ class HomeView extends GetView<HomeController> {
                         HourlyStrip(hourly: data.hourly),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  AnimatedEntry(
-                    index: 2,
-                    child: Column(
+                    const SizedBox(height: 20),
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _SectionTitle(title: 'Next 7 Days'),
-                        const SizedBox(height: 12),
-                        ...data.daily.take(3).toList().asMap().entries.map((
-                          entry,
-                        ) {
-                          final index = entry.key;
-                          final daily = entry.value;
-                          return AnimatedEntry(
-                            index: index,
-                            child: ForecastCard(
-                              daily: daily,
-                              isPrimary: index == 0,
-                              onTap: () {
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _SectionTitle(title: 'Next 7 Days'),
+                            TextButton(
+                              onPressed: () {
                                 Get.toNamed(
                                   Routes.FORECAST_DETAIL,
                                   arguments: {
                                     'daily': data.daily.take(7).toList(),
                                     'location':
                                         '${location.city}, ${location.country}',
+                                    'kind': controller.kind.value,
                                   },
                                 );
                               },
+                              child: const Text(
+                                'See Full Forecast',
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
-                          );
-                        }).toList(),
-                        const SizedBox(height: 8),
-                        Center(
-                          child: TextButton(
-                            onPressed: () {
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                        ...data.daily.take(3).toList().asMap().entries.map((
+                          entry,
+                        ) {
+                          final index = entry.key;
+                          final daily = entry.value;
+                          return ForecastCard(
+                            daily: daily,
+                            isPrimary: index == 0,
+                            onTap: () {
                               Get.toNamed(
                                 Routes.FORECAST_DETAIL,
                                 arguments: {
                                   'daily': data.daily.take(7).toList(),
                                   'location':
                                       '${location.city}, ${location.country}',
+                                  'kind': controller.kind.value,
                                 },
                               );
                             },
-                            child: const Text('See next 7 days forecast'),
-                          ),
-                        ),
+                          );
+                        }),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  AnimatedEntry(
-                    index: 3,
-                    child: _GlassRow(
+                    const SizedBox(height: 16),
+                    _GlassRow(
                       left: TemperatureDetailsSection(weather: data),
                       right: PrecipitationSection(weather: data),
                       baseHeight: 160,
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  AnimatedEntry(
-                    index: 4,
-                    child: _GlassRow(
+                    const SizedBox(height: 16),
+                    _GlassRow(
                       left: WindSection(weather: data),
                       right: AtmosphereSection(weather: data),
                       baseHeight: 250,
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  AnimatedEntry(
-                    index: 5,
-                    child: _GlassRow(
+                    const SizedBox(height: 16),
+                    _GlassRow(
                       left: CloudsCard(weather: data),
                       right: UvCard(uvi: data.current.uvi),
                       baseHeight: 100,
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  AnimatedEntry(
-                    index: 6,
-                    child: AirQualitySection(
-                      airQuality: controller.airQuality.value,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  AnimatedEntry(
-                    index: 7,
-                    child: AlertsSection(alerts: data.alerts),
-                  ),
-                  const SizedBox(height: 16),
-                  AnimatedEntry(
-                    index: 8,
-                    child: GlassCard(
+                    const SizedBox(height: 16),
+                    AirQualitySection(airQuality: controller.airQuality.value),
+                    const SizedBox(height: 16),
+                    AlertsSection(alerts: data.alerts),
+                    const SizedBox(height: 16),
+                    GlassCard(
                       padding: const EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -186,9 +172,9 @@ class HomeView extends GetView<HomeController> {
                         ],
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 40),
-                ],
+                    const SizedBox(height: 40),
+                  ],
+                ),
               ),
             ),
           ],

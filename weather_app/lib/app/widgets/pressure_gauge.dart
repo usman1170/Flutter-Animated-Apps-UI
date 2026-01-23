@@ -61,7 +61,7 @@ class _PressureGaugePainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height);
     final radius = size.width * 0.42;
     final basePaint = Paint()
-      ..color = Colors.white.withOpacity(0.2)
+      ..color = Colors.white.withAlpha(51)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 6;
     final activePaint = Paint()

@@ -51,12 +51,13 @@ class HourlyStrip extends StatelessWidget {
                               .textTheme
                               .labelLarge
                               ?.copyWith(color: Colors.white),
+                          highlightIndex: currentIndex,
                         ),
                       ),
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
-                        children: items
+                      children: items
                           .asMap()
                           .entries
                           .map(
@@ -89,45 +90,32 @@ class _HourlyCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final highlight = isCurrent;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-        decoration: BoxDecoration(
-          color: highlight ? Colors.white.withOpacity(0.12) : Colors.transparent,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: highlight
-                ? Colors.white.withOpacity(0.35)
-                : Colors.transparent,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          const SizedBox(height: 56),
+          Icon(
+            _iconFor(item),
+            color: _iconColor(item),
+            size: isCurrent ? 20 : 18,
           ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            const SizedBox(height: 56),
-            Icon(
-              _iconFor(item),
-              color: _iconColor(item),
-              size: highlight ? 20 : 18,
-            ),
-            const SizedBox(height: 6),
-            Text(
-              '${item.windSpeed.toStringAsFixed(1)} m/s',
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: highlight ? Colors.white : Colors.white70,
-                  ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              formatHour(item.dt),
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: highlight ? Colors.white : Colors.white54,
-                  ),
-            ),
-          ],
-        ),
+          const SizedBox(height: 6),
+          Text(
+            '${item.windSpeed.toStringAsFixed(1)} m/s',
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: isCurrent ? Colors.white : Colors.white70,
+                ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            formatHour(item.dt),
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: isCurrent ? Colors.white : Colors.white54,
+                ),
+          ),
+        ],
       ),
     );
   }
@@ -160,20 +148,23 @@ class _HourlyTempPainter extends CustomPainter {
     required this.items,
     required this.itemWidth,
     required this.textStyle,
+    required this.highlightIndex,
   });
 
   final List<HourlyWeather> items;
   final double itemWidth;
   final TextStyle? textStyle;
+  final int highlightIndex;
 
   @override
   void paint(Canvas canvas, Size size) {
     final temps = items.map((e) => e.temp).toList();
-    final minTemp = temps.reduce(min);
-    final maxTemp = temps.reduce(max);
+    final roundedTemps = temps.map((e) => e.roundToDouble()).toList();
+    final minTemp = roundedTemps.reduce(min);
+    final maxTemp = roundedTemps.reduce(max);
     final tempRange = max(1.0, maxTemp - minTemp);
 
-    final topPad = 18.0;
+    final topPad = 26.0;
     final bottomPad = 70.0;
     final lineHeight = max(16.0, size.height - topPad - bottomPad);
 
@@ -185,10 +176,10 @@ class _HourlyTempPainter extends CustomPainter {
     }
 
     for (int i = 0; i < items.length - 1; i++) {
-      final p1 = pointFor(i, temps[i]);
-      final p2 = pointFor(i + 1, temps[i + 1]);
-      final c1 = _tempColor(temps[i]);
-      final c2 = _tempColor(temps[i + 1]);
+      final p1 = pointFor(i, roundedTemps[i]);
+      final p2 = pointFor(i + 1, roundedTemps[i + 1]);
+      final c1 = _tempColor(roundedTemps[i]);
+      final c2 = _tempColor(roundedTemps[i + 1]);
       final paint = Paint()
         ..strokeWidth = 3.2
         ..style = PaintingStyle.stroke
@@ -200,10 +191,27 @@ class _HourlyTempPainter extends CustomPainter {
     }
 
     for (int i = 0; i < items.length; i++) {
-      final p = pointFor(i, temps[i]);
-      final paint = Paint()..color = _tempColor(temps[i]);
+      final p = pointFor(i, roundedTemps[i]);
+      final paint = Paint()..color = _tempColor(roundedTemps[i]);
       canvas.drawCircle(p, 3.5, paint);
       _drawLabel(canvas, p, '${temps[i].toStringAsFixed(0)}°');
+    }
+
+    if (highlightIndex >= 0 && highlightIndex < items.length) {
+      final p = pointFor(highlightIndex, roundedTemps[highlightIndex]);
+      final arrowPaint = Paint()
+        ..color = Colors.white.withAlpha(230)
+        ..style = PaintingStyle.fill;
+      final shadow = Paint()
+        ..color = Colors.black.withAlpha(51)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
+      final path = Path()
+        ..moveTo(p.dx, p.dy + 8)
+        ..lineTo(p.dx - 6, p.dy + 20)
+        ..lineTo(p.dx + 6, p.dy + 20)
+        ..close();
+      canvas.drawPath(path, shadow);
+      canvas.drawPath(path, arrowPaint);
     }
   }
 
@@ -216,7 +224,8 @@ class _HourlyTempPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _HourlyTempPainter oldDelegate) {
-    return oldDelegate.items != items;
+    return oldDelegate.items != items ||
+        oldDelegate.highlightIndex != highlightIndex;
   }
 
   void _drawLabel(Canvas canvas, Offset point, String text) {
@@ -224,9 +233,10 @@ class _HourlyTempPainter extends CustomPainter {
       text: TextSpan(text: text, style: textStyle),
       textDirection: TextDirection.ltr,
     )..layout();
+    final dy = max(6.0, point.dy - painter.height - 6);
     final offset = Offset(
       point.dx - (painter.width / 2),
-      point.dy - painter.height - 6,
+      dy,
     );
     painter.paint(canvas, offset);
   }
