@@ -1,27 +1,34 @@
 import 'package:get/get.dart';
 
-import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_view.dart';
-import '../modules/my_cameras/bindings/my_cameras_binding.dart';
-import '../modules/my_cameras/views/my_cameras_view.dart';
+import '../modules/dashboard/bindings/dashboard_binding.dart';
+import '../modules/dashboard/views/dashboard_view.dart';
+import '../modules/player/bindings/player_binding.dart';
+import '../modules/player/views/player_view.dart';
+import '../modules/splash/bindings/splash_binding.dart';
+import '../modules/splash/views/splash_view.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.MY_CAMERAS;
+  static const initial = Routes.splash;
 
   static final routes = [
     GetPage(
-      name: _Paths.HOME,
-      page: () => const HomeView(),
-      binding: HomeBinding(),
+      name: _Paths.splash,
+      page: () => const SplashView(),
+      binding: SplashBinding(),
     ),
     GetPage(
-      name: _Paths.MY_CAMERAS,
-      page: () => const MyCamerasView(),
-      binding: MyCamerasBinding(),
+      name: _Paths.dashboard,
+      page: () => const DashboardView(),
+      binding: DashboardBinding(),
+    ),
+    GetPage(
+      name: _Paths.player,
+      page: () => const PlayerView(),
+      binding: PlayerBinding(),
     ),
   ];
 }

@@ -14,13 +14,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'My Cameras',
-      initialRoute: AppPages.INITIAL,
+      title: 'Aurora Music',
+      initialRoute: AppPages.initial,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
-      themeMode: ThemeMode.system,
+      theme: AppTheme.darkTheme,
+      themeMode: ThemeMode.dark,
     );
   }
 }

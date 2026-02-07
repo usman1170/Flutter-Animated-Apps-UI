@@ -6,69 +6,52 @@ import 'app_colors.dart';
 class AppTheme {
   AppTheme._();
 
-  static ThemeData light() {
-    final base = ThemeData(
-      useMaterial3: true,
-      brightness: Brightness.light,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
-        brightness: Brightness.light,
-      ),
+  static ThemeData get darkTheme {
+    final base = ThemeData(brightness: Brightness.dark, useMaterial3: true);
+    final textTheme = GoogleFonts.poppinsTextTheme(base.textTheme).apply(
+      bodyColor: AppColors.textPrimary,
+      displayColor: AppColors.textPrimary,
     );
 
     return base.copyWith(
-      scaffoldBackgroundColor: Colors.transparent,
-      textTheme: GoogleFonts.interTextTheme(base.textTheme).copyWith(
-        titleLarge: GoogleFonts.inter(
-          fontSize: 28,
+      scaffoldBackgroundColor: AppColors.bgBottom,
+      colorScheme: const ColorScheme.dark(
+        primary: AppColors.accent,
+        secondary: AppColors.accentDark,
+        surface: AppColors.surface,
+      ),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        foregroundColor: AppColors.textPrimary,
+        centerTitle: false,
+      ),
+      textTheme: textTheme.copyWith(
+        headlineLarge: textTheme.headlineLarge?.copyWith(
+          fontSize: 30,
           fontWeight: FontWeight.w600,
-          color: AppColors.textDark,
         ),
-        titleMedium: GoogleFonts.inter(
-          fontSize: 18,
+        titleLarge: textTheme.titleLarge?.copyWith(
+          fontSize: 22,
           fontWeight: FontWeight.w600,
-          color: AppColors.textDark,
         ),
-        bodyMedium: GoogleFonts.inter(
-          fontSize: 14,
+        titleMedium: textTheme.titleMedium?.copyWith(
+          fontSize: 16,
           fontWeight: FontWeight.w500,
-          color: AppColors.textDark,
         ),
-      ),
-      iconTheme: const IconThemeData(color: AppColors.textDark),
-    );
-  }
-
-  static ThemeData dark() {
-    final base = ThemeData(
-      useMaterial3: true,
-      brightness: Brightness.dark,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primaryDark,
-        brightness: Brightness.dark,
-      ),
-    );
-
-    return base.copyWith(
-      scaffoldBackgroundColor: Colors.transparent,
-      textTheme: GoogleFonts.interTextTheme(base.textTheme).copyWith(
-        titleLarge: GoogleFonts.inter(
-          fontSize: 28,
-          fontWeight: FontWeight.w600,
-          color: AppColors.textLight,
+        bodyLarge: textTheme.bodyLarge?.copyWith(
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
         ),
-        titleMedium: GoogleFonts.inter(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-          color: AppColors.textLight,
-        ),
-        bodyMedium: GoogleFonts.inter(
+        bodyMedium: textTheme.bodyMedium?.copyWith(
           fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: AppColors.textLight,
+          fontWeight: FontWeight.w400,
+        ),
+        bodySmall: textTheme.bodySmall?.copyWith(
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
         ),
       ),
-      iconTheme: const IconThemeData(color: AppColors.textLight),
     );
   }
 }
