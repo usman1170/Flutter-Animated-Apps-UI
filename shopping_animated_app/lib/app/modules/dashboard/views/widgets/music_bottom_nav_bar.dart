@@ -52,14 +52,14 @@ class MusicBottomNavBar extends StatelessWidget {
                     ),
                     _NavIcon(
                       icon: Icons.headphones_rounded,
-                      isActive: selected == 2,
-                      onTap: () => controller.setTab(2),
+                      isActive: selected == 1,
+                      onTap: () => controller.setTab(1),
                     ),
 
                     _NavIcon(
                       icon: Icons.settings_outlined,
-                      isActive: selected == 1,
-                      onTap: () => controller.setTab(1),
+                      isActive: selected == 2,
+                      onTap: () => controller.setTab(2),
                     ),
                   ],
                 ),

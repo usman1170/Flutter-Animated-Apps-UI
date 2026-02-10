@@ -7,6 +7,7 @@ import '../controllers/dashboard_controller.dart';
 import 'widgets/dashboard_home.dart';
 import 'widgets/library_view.dart';
 import 'widgets/music_bottom_nav_bar.dart';
+import 'widgets/settings_view.dart';
 
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({super.key});
@@ -33,17 +34,9 @@ class DashboardView extends GetView<DashboardController> {
                       }
 
                       if (index == 2) {
-                        return const _PlaceholderPage(
-                          title: 'Music',
-                          subtitle: 'Your tracks and playlists.',
-                          icon: Icons.music_note_rounded,
-                        );
+                        return const SettingsView();
                       }
-                      return const _PlaceholderPage(
-                        title: 'Profile',
-                        subtitle: 'Personalize your music journey.',
-                        icon: Icons.person_outline_rounded,
-                      );
+                      return const DashboardHome();
                     }),
                   ),
                   const Positioned(
@@ -92,41 +85,6 @@ class _BackgroundGradient extends StatelessWidget {
             center: const Alignment(0.35, 0.15),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _PlaceholderPage extends StatelessWidget {
-  const _PlaceholderPage({
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-  });
-
-  final String title;
-  final String subtitle;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: AppColors.textPrimary, size: 48),
-          const SizedBox(height: 12),
-          Text(
-            title,
-            style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            subtitle,
-            style: textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
-          ),
-        ],
       ),
     );
   }
