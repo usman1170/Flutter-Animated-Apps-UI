@@ -10,6 +10,7 @@ class GlassContainer extends StatelessWidget {
     this.opacity = 0.14,
     this.borderOpacity = 0.32,
     this.gradient,
+    this.glassContainsChild = true,
   });
 
   final Widget child;
@@ -18,6 +19,7 @@ class GlassContainer extends StatelessWidget {
   final double opacity;
   final double borderOpacity;
   final Gradient? gradient;
+  final bool glassContainsChild;
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +27,15 @@ class GlassContainer extends StatelessWidget {
       shape: LiquidRoundedSuperellipse(borderRadius: borderRadius),
       settings: LiquidGlassSettings(
         blur: 16,
-        thickness: 12,
+        thickness: 14,
         glassColor: Colors.white.withAlpha((opacity * 255).round()),
-        lightIntensity: 0.9,
-        ambientStrength: 0.55,
-        saturation: 1.2,
+        lightIntensity: 1.05,
+        ambientStrength: 0.7,
+        saturation: 1.25,
         chromaticAberration: 0.02,
       ),
+      glassContainsChild: glassContainsChild,
+      clipBehavior: Clip.hardEdge,
       child: Container(
         padding: padding,
         decoration: BoxDecoration(

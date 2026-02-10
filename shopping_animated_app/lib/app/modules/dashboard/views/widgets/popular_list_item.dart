@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/water_ripple_tap.dart';
 import 'glass_container.dart';
 
 class PopularListItem extends StatelessWidget {
@@ -64,7 +65,7 @@ class GlassPlayButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return WaterRippleTap(
       onTap: onTap,
       child: GlassContainer(
         borderRadius: 22,

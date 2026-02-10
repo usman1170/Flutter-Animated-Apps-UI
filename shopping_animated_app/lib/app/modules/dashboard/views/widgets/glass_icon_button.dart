@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/water_ripple_tap.dart';
 import 'glass_container.dart';
 
 class GlassIconButton extends StatelessWidget {
@@ -15,8 +16,7 @@ class GlassIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(22),
+    return WaterRippleTap(
       onTap: onTap,
       child: GlassContainer(
         borderRadius: 24,

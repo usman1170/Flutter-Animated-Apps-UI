@@ -236,60 +236,6 @@ class _GlassToggleTile extends StatelessWidget {
   }
 }
 
-class _GlassSliderTile extends StatelessWidget {
-  const _GlassSliderTile({
-    required this.title,
-    required this.subtitle,
-    required this.value,
-    required this.onChanged,
-  });
-
-  final String title;
-  final String subtitle;
-  final RxDouble value;
-  final ValueChanged<double> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    return _GlassTile(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            subtitle,
-            style: textTheme.bodySmall?.copyWith(color: AppColors.textMuted),
-          ),
-          const SizedBox(height: 10),
-          Obx(() {
-            return SliderTheme(
-              data: SliderTheme.of(context).copyWith(
-                activeTrackColor: AppColors.accent,
-                inactiveTrackColor: AppColors.textMuted.withAlpha(70),
-                thumbColor: AppColors.accent,
-                overlayColor: AppColors.accent.withAlpha(40),
-                trackHeight: 4,
-                thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
-              ),
-              child: Slider(
-                min: 0,
-                max: 1,
-                value: value.value,
-                onChanged: onChanged,
-              ),
-            );
-          }),
-        ],
-      ),
-    );
-  }
-}
-
 class _GlassStepperTile extends StatelessWidget {
   const _GlassStepperTile({
     required this.title,

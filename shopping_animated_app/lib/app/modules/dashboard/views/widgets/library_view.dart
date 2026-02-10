@@ -22,7 +22,9 @@ class LibraryView extends StatelessWidget {
       'duration': '3:35',
       'seconds': 215,
       'image':
-          'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=200&q=80',
+          'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80',
+      'audio':
+          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3',
     },
     {
       'title': 'Happier Than Ever',
@@ -30,7 +32,9 @@ class LibraryView extends StatelessWidget {
       'duration': '4:57',
       'seconds': 297,
       'image':
-          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=200&q=80',
+          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=80',
+      'audio':
+          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
     },
     {
       'title': 'Sunflower',
@@ -38,7 +42,9 @@ class LibraryView extends StatelessWidget {
       'duration': '2:40',
       'seconds': 160,
       'image':
-          'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=200&q=80',
+          'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80',
+      'audio':
+          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3',
     },
     {
       'title': 'Believer',
@@ -46,7 +52,9 @@ class LibraryView extends StatelessWidget {
       'duration': '3:25',
       'seconds': 205,
       'image':
-          'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=200&q=80',
+          'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=600&q=80',
+      'audio':
+          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3',
     },
     {
       'title': 'Positions',
@@ -54,7 +62,9 @@ class LibraryView extends StatelessWidget {
       'duration': '3:02',
       'seconds': 182,
       'image':
-          'https://images.unsplash.com/photo-1485579149621-3123dd979885?auto=format&fit=crop&w=200&q=80',
+          'https://images.unsplash.com/photo-1485579149621-3123dd979885?auto=format&fit=crop&w=600&q=80',
+      'audio':
+          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3',
     },
     {
       'title': 'Shivers',
@@ -62,7 +72,9 @@ class LibraryView extends StatelessWidget {
       'duration': '3:28',
       'seconds': 208,
       'image':
-          'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=200&q=80',
+          'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
+      'audio':
+          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3',
     },
     {
       'title': 'Ghost',
@@ -70,7 +82,9 @@ class LibraryView extends StatelessWidget {
       'duration': '3:12',
       'seconds': 192,
       'image':
-          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=200&q=80',
+          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=600&q=80',
+      'audio':
+          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3',
     },
     {
       'title': 'Afterglow',
@@ -78,7 +92,9 @@ class LibraryView extends StatelessWidget {
       'duration': '3:05',
       'seconds': 185,
       'image':
-          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=200&q=80',
+          'https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2?auto=format&fit=crop&w=600&q=80',
+      'audio':
+          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3',
     },
     {
       'title': 'Levitating',
@@ -86,7 +102,9 @@ class LibraryView extends StatelessWidget {
       'duration': '3:23',
       'seconds': 203,
       'image':
-          'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=200&q=80',
+          'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=600&q=80',
+      'audio':
+          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3',
     },
     {
       'title': 'Peaches',
@@ -94,7 +112,9 @@ class LibraryView extends StatelessWidget {
       'duration': '3:18',
       'seconds': 198,
       'image':
-          'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=200&q=80',
+          'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=600&q=80',
+      'audio':
+          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3',
     },
   ];
 
@@ -179,6 +199,7 @@ class LibraryView extends StatelessWidget {
             title: item['title'] as String,
             artist: item['subtitle'] as String,
             imageUrl: item['image'] as String,
+            audioUrl: item['audio'] as String,
             durationSeconds: item['seconds'] as int,
           ),
         )

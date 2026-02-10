@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:liquid_glass_renderer/liquid_glass_renderer.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/water_ripple_tap.dart';
 import '../../controllers/dashboard_controller.dart';
 
 class MusicBottomNavBar extends StatelessWidget {
@@ -25,13 +26,15 @@ class MusicBottomNavBar extends StatelessWidget {
               shape: const LiquidRoundedSuperellipse(borderRadius: 32),
               settings: LiquidGlassSettings(
                 blur: 18,
-                thickness: 14,
+                thickness: 16,
                 glassColor: Colors.white.withAlpha(36),
-                lightIntensity: 0.95,
-                ambientStrength: 0.6,
-                saturation: 1.25,
+                lightIntensity: 1.1,
+                ambientStrength: 0.7,
+                saturation: 1.35,
                 chromaticAberration: 0.02,
               ),
+              glassContainsChild: true,
+              clipBehavior: Clip.hardEdge,
               child: Container(
                 height: 66,
                 padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -40,6 +43,14 @@ class MusicBottomNavBar extends StatelessWidget {
                   border: Border.all(
                     color: Colors.white.withAlpha(56),
                     width: 1,
+                  ),
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white.withAlpha(12),
+                      Colors.white.withAlpha(6),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
                 ),
                 child: Row(
@@ -85,7 +96,7 @@ class _NavIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return WaterRippleTap(
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
