@@ -190,6 +190,7 @@ class PlayerController extends GetxController {
     await for (final progress in JustWaveform.extract(
       audioInFile: audioFile,
       waveOutFile: waveFile,
+      zoom: const WaveformZoom.pixelsPerSecond(220),
     )) {
       if (progress.waveform != null) {
         waveform = progress.waveform;
@@ -201,27 +202,45 @@ class PlayerController extends GetxController {
     final durationMs = waveform.duration.inMilliseconds;
     if (durationMs <= 0) return const [];
 
-    double sum = 0;
     final pixels = waveform.length;
+    final amplitudes = List<double>.filled(pixels, 0);
+    double sum = 0;
     for (var i = 0; i < pixels; i++) {
       final minVal = waveform.getPixelMin(i).abs();
       final maxVal = waveform.getPixelMax(i).abs();
-      sum += math.max(minVal, maxVal).toDouble();
+      final amp = math.max(minVal, maxVal).toDouble();
+      amplitudes[i] = amp;
+      sum += amp;
     }
     final avg = sum / pixels;
-    final threshold = avg * 1.35;
+    final threshold = avg * 1.2;
     final pixelDurationMs = durationMs / pixels;
-    final minGapMs = 250.0;
+    final minGapMs = 220.0;
     final minGapPixels = math.max(1, (minGapMs / pixelDurationMs).round());
+    final window = math.max(3, (120 / pixelDurationMs).round());
 
     final beats = <Duration>[];
     var lastBeat = -minGapPixels;
-    for (var i = 0; i < pixels; i++) {
-      final amplitude = math.max(
-        waveform.getPixelMin(i).abs(),
-        waveform.getPixelMax(i).abs(),
-      );
-      if (amplitude > threshold && (i - lastBeat) >= minGapPixels) {
+    for (var i = 1; i < pixels - 1; i++) {
+      if ((i - lastBeat) < minGapPixels) continue;
+      final amplitude = amplitudes[i];
+      if (amplitude < threshold) continue;
+
+      // Local energy average (adaptive threshold)
+      double localSum = 0;
+      var count = 0;
+      final start = math.max(0, i - window);
+      final end = math.min(pixels - 1, i + window);
+      for (var j = start; j <= end; j++) {
+        localSum += amplitudes[j];
+        count++;
+      }
+      final localAvg = localSum / math.max(1, count);
+      if (amplitude < localAvg * 1.35) continue;
+
+      // Peak check
+      if (amplitude >= amplitudes[i - 1] &&
+          amplitude >= amplitudes[i + 1]) {
         final timeMs = (i * pixelDurationMs).round();
         beats.add(Duration(milliseconds: timeMs));
         lastBeat = i;
