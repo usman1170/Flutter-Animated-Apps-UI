@@ -1,0 +1,6 @@
+# Flutter Project Rules
+
+- **No Comments in Code:** Do not add any comments (e.g., `//`, `/* */`, `///`) inside Dart files. Code should be self-explanatory.
+- **Max File Length:** Dart files must not exceed 300 lines. Break down files exceeding this limit into smaller, modular components.
+- **Modular Architecture:** Create modular components. A component specific to a module should be placed in that module's `view` or `widgets` directory (e.g., `lib/app/modules/home/views/components/`).
+- **State Management:** Follow the standard GetX architectural pattern (`app/modules/`, `app/data/`, `app/routes/`, `app/core/theme/` etc.).
