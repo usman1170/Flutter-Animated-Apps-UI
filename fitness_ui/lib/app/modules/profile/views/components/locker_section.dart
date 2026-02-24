@@ -51,10 +51,10 @@ class LockerSection extends StatelessWidget {
                 children: [
                   _buildFirstLockerItem(),
                   _buildLockerItem(
-                    'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=150&q=80',
+                    'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=150&q=80', // White T-shirt
                   ),
                   _buildLockerItem(
-                    'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=150&q=80',
+                    'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?auto=format&fit=crop&w=150&q=80', // Joggers
                   ),
                 ],
               ),
@@ -104,21 +104,36 @@ class LockerSection extends StatelessWidget {
         border: Border.all(color: AppColors.border, width: 1),
         image: const DecorationImage(
           image: NetworkImage(
-            'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=150&q=80',
+            'https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=300&q=80',
           ),
           fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(Colors.black54, BlendMode.darken),
+          colorFilter: ColorFilter.mode(Colors.black38, BlendMode.darken),
         ),
       ),
       child: Stack(
-        clipBehavior: Clip.none,
         children: [
+          // Gradient Background
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  AppColors.cardBackground.withAlpha(0),
+                  Colors.black.withAlpha(150),
+                ],
+              ),
+            ),
+          ),
+          // Floating Buttons on Bottom Left
           Positioned(
-            left: -5,
-            bottom: -5,
+            left: -4,
+            bottom: 8,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                _buildDiamondIcon(Icons.grid_view_rounded),
+                _buildDiamondIcon(Icons.widgets),
                 const SizedBox(width: 4),
                 _buildDiamondIcon(Icons.info_outline),
               ],
@@ -133,16 +148,16 @@ class LockerSection extends StatelessWidget {
     return Transform.rotate(
       angle: math.pi / 4,
       child: Container(
-        width: 32,
-        height: 32,
+        width: 36,
+        height: 36,
         decoration: BoxDecoration(
-          color: AppColors.cardBackground,
+          color: AppColors.cardBackground.withAlpha(200),
           border: Border.all(color: AppColors.border, width: 1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Transform.rotate(
           angle: -math.pi / 4,
-          child: Icon(icon, size: 16, color: AppColors.textSecondary),
+          child: Icon(icon, size: 18, color: AppColors.textPrimary),
         ),
       ),
     );
@@ -161,6 +176,24 @@ class LockerSection extends StatelessWidget {
           fit: BoxFit.cover,
           colorFilter: const ColorFilter.mode(Colors.black38, BlendMode.darken),
         ),
+      ),
+      child: Stack(
+        children: [
+          // Gradient Background
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  AppColors.cardBackground.withAlpha(0),
+                  Colors.black.withAlpha(150),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

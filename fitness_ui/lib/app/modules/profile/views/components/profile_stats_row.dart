@@ -19,7 +19,11 @@ class ProfileStatsRow extends StatelessWidget {
             alignment: Alignment.center,
             child: const Text(
               'STATS',
-              style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.5),
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 13,
+                letterSpacing: 1.5,
+              ),
             ),
           ),
         ),
@@ -37,7 +41,8 @@ class ProfileStatsRow extends StatelessWidget {
               'GOAL & STREAK',
               style: TextStyle(
                 color: AppColors.textSecondary,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
+                fontSize: 13,
                 letterSpacing: 1.5,
               ),
             ),

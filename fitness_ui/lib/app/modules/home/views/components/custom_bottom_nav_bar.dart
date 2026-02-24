@@ -16,7 +16,7 @@ class CustomBottomNavBar extends GetView<HomeController> {
           topRight: Radius.circular(30),
         ),
       ),
-      padding: const EdgeInsets.only(top: 16, bottom: 32, left: 16, right: 16),
+      padding: const EdgeInsets.only(top: 14, bottom: 26, left: 16, right: 16),
       child: Obx(
         () => Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -41,7 +41,7 @@ class CustomBottomNavBar extends GetView<HomeController> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: color, size: 28),
+          Icon(icon, color: color, size: 24),
           const SizedBox(height: 4),
           Text(
             label,

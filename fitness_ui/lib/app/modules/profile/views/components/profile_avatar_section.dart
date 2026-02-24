@@ -103,11 +103,9 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection> {
                 ),
               ),
               Positioned(
-                top: 0,
-                right: 50,
-                child: IconButton(
-                  icon: const Icon(Icons.edit, color: AppColors.accent),
-                  onPressed: () {
+                bottom: 0,
+                child: GestureDetector(
+                  onTap: () {
                     Get.to(
                       () => AvatarCreatorView(
                         onAvatarExported: (url) {
@@ -118,6 +116,44 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection> {
                       ),
                     );
                   },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.cardBackground,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: AppColors.accent, width: 1.5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.accent.withAlpha(50),
+                          blurRadius: 10,
+                          spreadRadius: 1,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        Icon(
+                          Icons.auto_fix_high,
+                          color: AppColors.accent,
+                          size: 16,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'CUSTOMIZE',
+                          style: TextStyle(
+                            color: AppColors.textPrimary,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
               Positioned(
@@ -162,9 +198,10 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection> {
   Widget _buildCircledStat(IconData icon, String label, double progress) {
     return Column(
       children: [
-        SizedBox(
-          width: 70,
-          height: 70,
+        Container(
+          width: 68,
+          height: 68,
+          padding: const EdgeInsets.all(2),
           child: CustomPaint(
             painter: ArcProgressPainter(progress: progress),
             child: Container(

@@ -19,9 +19,9 @@ class ProfileView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: const [
               ProfileHeader(),
-              SizedBox(height: 24),
+              SizedBox(height: 22),
               ProfileStatsRow(),
-              SizedBox(height: 24),
+              SizedBox(height: 22),
               ProfileAvatarSection(),
             ],
           ),

@@ -18,7 +18,7 @@ class ProfileHeader extends StatelessWidget {
           'HI, JAMES',
           style: TextStyle(
             color: AppColors.textPrimary,
-            fontSize: 24,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
             fontStyle: FontStyle.italic,
           ),
@@ -42,7 +42,10 @@ class ProfileHeader extends StatelessWidget {
                       children: const [
                         Text(
                           'LVL 1:',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                          ),
                         ),
                         Text(
                           '100/500 XP',
