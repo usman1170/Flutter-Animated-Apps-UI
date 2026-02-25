@@ -12,6 +12,7 @@ class LockerSection extends StatelessWidget {
     Assets.images.locker.blackJacket.path,
     Assets.images.locker.whiteTshirt.path,
     Assets.images.locker.blackTrouser.path,
+    Assets.images.locker.blueShirt.path,
   ];
 
   @override
@@ -26,7 +27,7 @@ class LockerSection extends StatelessWidget {
               style: TextStyle(
                 color: AppColors.textPrimary,
                 fontWeight: FontWeight.w700,
-                fontSize: 16,
+                fontSize: 15.5,
                 letterSpacing: 2.0,
               ),
             ),
@@ -37,7 +38,7 @@ class LockerSection extends StatelessWidget {
                   style: TextStyle(
                     color: AppColors.textSecondary,
                     fontWeight: FontWeight.w700,
-                    fontSize: 14,
+                    fontSize: 13,
                     letterSpacing: 0.8,
                   ),
                 ),
@@ -67,6 +68,10 @@ class LockerSection extends StatelessWidget {
                     imageAlignment: const Alignment(0, -0.35),
                   ),
                   _buildLockerItem(
+                    imagePath: _lockerPngs[3],
+                    imageAlignment: const Alignment(0, -0.18),
+                  ),
+                  _buildLockerItem(
                     imagePath: _lockerPngs[2],
                     imageAlignment: const Alignment(0, -0.18),
                   ),
@@ -77,11 +82,7 @@ class LockerSection extends StatelessWidget {
                 bottom: 8,
                 child: _buildLeftFloatingButtons(),
               ),
-              Positioned(
-                right: 2,
-                bottom: 8,
-                child: _buildActionButton(),
-              ),
+              Positioned(right: 2, bottom: 8, child: _buildActionButton()),
             ],
           ),
         ),
