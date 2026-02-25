@@ -219,7 +219,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection> {
           label,
           style: const TextStyle(
             color: AppColors.textSecondary,
-            fontSize: 12,
+            fontSize: 11,
             fontWeight: FontWeight.bold,
           ),
         ),
