@@ -20,24 +20,14 @@ class ProfileAvatarSection extends StatefulWidget {
 }
 
 class _ProfileAvatarSectionState extends State<ProfileAvatarSection> {
-  String avatarUrl =
+  static const String _defaultAvatarUrl =
       'https://models.readyplayer.me/65893b0514f9f5f28e61d783.glb';
 
-  @override
-  void initState() {
-    super.initState();
-    _initAvatar();
-  }
-
-  void _initAvatar() {
-    try {
-      final LobbyController controller = Get.find<LobbyController>();
-      if (controller.selectedAvatarPath.value.isNotEmpty) {
-        avatarUrl = controller.selectedAvatarPath.value;
-      }
-    } catch (_) {
-      // LobbyController might not be initialized if navigated here directly
+  LobbyController get _lobbyController {
+    if (Get.isRegistered<LobbyController>()) {
+      return Get.find<LobbyController>();
     }
+    return Get.put(LobbyController());
   }
 
   @override
@@ -51,7 +41,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection> {
               final bool goalMode = widget.isGoalMode;
               final double leftInset = goalMode
                   ? -constraints.maxWidth * 0.16
-                  : 22;
+                  : 0;
               final double rightInset = goalMode
                   ? constraints.maxWidth * 0.42
                   : 0;
@@ -93,16 +83,22 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection> {
                     right: rightInset,
                     bottom: 30,
                     height: 330,
-                    child: ModelViewer(
-                      key: ValueKey(avatarUrl),
-                      backgroundColor: Colors.transparent,
-                      src: avatarUrl,
-                      alt: 'A 3D model of a rigged human',
-                      ar: false,
-                      autoRotate: !goalMode,
-                      cameraControls: true,
-                      disableZoom: true,
-                    ),
+                    child: Obx(() {
+                      final avatarPath =
+                          _lobbyController.selectedAvatarPath.value.isEmpty
+                          ? _defaultAvatarUrl
+                          : _lobbyController.selectedAvatarPath.value;
+                      return ModelViewer(
+                        key: ValueKey(avatarPath),
+                        backgroundColor: Colors.transparent,
+                        src: avatarPath,
+                        alt: 'A 3D model of a rigged human',
+                        ar: false,
+                        autoRotate: !goalMode,
+                        cameraControls: true,
+                        disableZoom: true,
+                      );
+                    }),
                   ),
                   AnimatedPositioned(
                     duration: const Duration(milliseconds: 420),
@@ -190,12 +186,7 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection> {
                               Get.to(
                                 () => AvatarCreatorView(
                                   onAvatarExported: (url) async {
-                                    final LobbyController lobbyController =
-                                        Get.find<LobbyController>();
-                                    await lobbyController.updateAvatar(url);
-                                    setState(() {
-                                      avatarUrl = url;
-                                    });
+                                    await _lobbyController.updateAvatar(url);
                                   },
                                 ),
                               );

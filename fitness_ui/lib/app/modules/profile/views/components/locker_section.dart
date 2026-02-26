@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
@@ -55,67 +53,26 @@ class LockerSection extends StatelessWidget {
         const SizedBox(height: 10),
         SizedBox(
           height: 86,
-          child: Stack(
-            alignment: Alignment.centerRight,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
             children: [
-              ListView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.only(right: 66),
-                children: [
-                  _buildFirstLockerItem(),
-                  _buildLockerItem(
-                    imagePath: _lockerPngs[1],
-                    imageAlignment: const Alignment(0, -0.35),
-                  ),
-                  _buildLockerItem(
-                    imagePath: _lockerPngs[3],
-                    imageAlignment: const Alignment(0, -0.18),
-                  ),
-                  _buildLockerItem(
-                    imagePath: _lockerPngs[2],
-                    imageAlignment: const Alignment(0, -0.18),
-                  ),
-                ],
+              _buildFirstLockerItem(),
+              _buildLockerItem(
+                imagePath: _lockerPngs[1],
+                imageAlignment: const Alignment(0, -0.35),
               ),
-              Positioned(
-                left: 10,
-                bottom: 8,
-                child: _buildLeftFloatingButtons(),
+              _buildLockerItem(
+                imagePath: _lockerPngs[3],
+                imageAlignment: const Alignment(0, -0.18),
               ),
-              Positioned(right: 2, bottom: 8, child: _buildActionButton()),
+              _buildLockerItem(
+                imagePath: _lockerPngs[2],
+                imageAlignment: const Alignment(0, -0.18),
+              ),
             ],
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildActionButton() {
-    return Transform.rotate(
-      angle: math.pi / 4,
-      child: Container(
-        width: 50,
-        height: 50,
-        decoration: BoxDecoration(
-          color: AppColors.accent,
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.accent.withAlpha(70),
-              blurRadius: 10,
-              spreadRadius: 1.2,
-            ),
-          ],
-        ),
-        child: Transform.rotate(
-          angle: -math.pi / 4,
-          child: const Icon(
-            Icons.navigation_rounded,
-            color: Color(0xFF06131E),
-            size: 22,
-          ),
-        ),
-      ),
     );
   }
 
@@ -147,35 +104,6 @@ class LockerSection extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLeftFloatingButtons() {
-    return Row(
-      children: [
-        _buildDiamondIcon(Icons.grid_view_rounded),
-        const SizedBox(width: 8),
-        _buildDiamondIcon(Icons.info_outline_rounded),
-      ],
-    );
-  }
-
-  Widget _buildDiamondIcon(IconData icon) {
-    return Transform.rotate(
-      angle: math.pi / 4,
-      child: Container(
-        width: 50,
-        height: 50,
-        decoration: BoxDecoration(
-          color: const Color(0xD0142439),
-          border: Border.all(color: const Color(0xFF2D425C), width: 1),
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: Transform.rotate(
-          angle: -math.pi / 4,
-          child: Icon(icon, size: 22, color: const Color(0xFFEAF2FF)),
         ),
       ),
     );
