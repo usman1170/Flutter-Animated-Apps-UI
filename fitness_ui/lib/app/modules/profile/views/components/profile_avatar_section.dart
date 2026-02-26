@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:model_viewer_plus/model_viewer_plus.dart';
 
+import '../../../lobby/controllers/lobby_controller.dart';
+
 import '../../../../core/theme/app_colors.dart';
 import 'arc_progress_painter.dart';
 import 'avatar_creator_view.dart';
@@ -20,6 +22,23 @@ class ProfileAvatarSection extends StatefulWidget {
 class _ProfileAvatarSectionState extends State<ProfileAvatarSection> {
   String avatarUrl =
       'https://models.readyplayer.me/65893b0514f9f5f28e61d783.glb';
+
+  @override
+  void initState() {
+    super.initState();
+    _initAvatar();
+  }
+
+  void _initAvatar() {
+    try {
+      final LobbyController controller = Get.find<LobbyController>();
+      if (controller.selectedAvatarPath.value.isNotEmpty) {
+        avatarUrl = controller.selectedAvatarPath.value;
+      }
+    } catch (_) {
+      // LobbyController might not be initialized if navigated here directly
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +189,10 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection> {
                             onTap: () {
                               Get.to(
                                 () => AvatarCreatorView(
-                                  onAvatarExported: (url) {
+                                  onAvatarExported: (url) async {
+                                    final LobbyController lobbyController =
+                                        Get.find<LobbyController>();
+                                    await lobbyController.updateAvatar(url);
                                     setState(() {
                                       avatarUrl = url;
                                     });
