@@ -25,21 +25,25 @@ class _ProfileViewState extends State<ProfileView> {
       body: SafeArea(
         child: Stack(
           children: [
-            SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 110),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const ProfileHeader(),
-                  SizedBox(height: 22),
-                  ProfileStatsRow(
-                    isGoalMode: controller.isGoalMode.value,
-                    onStatsTap: () => controller.toggleGoalMode(false),
-                    onGoalTap: () => controller.toggleGoalMode(true),
-                  ),
-                  SizedBox(height: 22),
-                  ProfileAvatarSection(isGoalMode: controller.isGoalMode.value),
-                ],
+            Obx(
+              () => SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 110),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const ProfileHeader(),
+                    SizedBox(height: 22),
+                    ProfileStatsRow(
+                      isGoalMode: controller.isGoalMode.value,
+                      onStatsTap: () => controller.toggleGoalMode(false),
+                      onGoalTap: () => controller.toggleGoalMode(true),
+                    ),
+                    SizedBox(height: 22),
+                    ProfileAvatarSection(
+                      isGoalMode: controller.isGoalMode.value,
+                    ),
+                  ],
+                ),
               ),
             ),
             Positioned(
