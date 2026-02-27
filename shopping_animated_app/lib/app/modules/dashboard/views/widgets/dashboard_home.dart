@@ -24,8 +24,7 @@ class DashboardHome extends StatelessWidget {
       'image':
           'https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=600&q=80',
       'duration': 179,
-      'audio':
-          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+      'audio': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
     },
     {
       'title': 'Ocean Eyes',
@@ -33,8 +32,7 @@ class DashboardHome extends StatelessWidget {
       'image':
           'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80',
       'duration': 160,
-      'audio':
-          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+      'audio': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
     },
     {
       'title': 'Circles Run',
@@ -42,8 +40,7 @@ class DashboardHome extends StatelessWidget {
       'image':
           'https://images.unsplash.com/photo-1485579149621-3123dd979885?auto=format&fit=crop&w=600&q=80',
       'duration': 205,
-      'audio':
-          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+      'audio': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
     },
     {
       'title': 'Night Drive',
@@ -51,8 +48,7 @@ class DashboardHome extends StatelessWidget {
       'image':
           'https://images.unsplash.com/photo-1487180144351-b8472da7d491?auto=format&fit=crop&w=600&q=80',
       'duration': 194,
-      'audio':
-          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
+      'audio': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
     },
     {
       'title': 'Neon Dreams',
@@ -60,8 +56,7 @@ class DashboardHome extends StatelessWidget {
       'image':
           'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=600&q=80',
       'duration': 188,
-      'audio':
-          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
+      'audio': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
     },
     {
       'title': 'Moonlight',
@@ -69,8 +64,7 @@ class DashboardHome extends StatelessWidget {
       'image':
           'https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2?auto=format&fit=crop&w=600&q=80',
       'duration': 214,
-      'audio':
-          'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
+      'audio': 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
     },
   ];
 

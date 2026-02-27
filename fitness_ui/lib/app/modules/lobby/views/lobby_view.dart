@@ -40,23 +40,35 @@ class _LobbyViewState extends State<LobbyView> {
           children: [
             _buildHeader(),
             Expanded(
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 360),
-                switchInCurve: Curves.easeOutCubic,
-                switchOutCurve: Curves.easeInCubic,
-                transitionBuilder: (child, animation) {
-                  final slide = Tween<Offset>(
-                    begin: const Offset(0.12, 0),
-                    end: Offset.zero,
-                  ).animate(animation);
-                  return FadeTransition(
-                    opacity: animation,
-                    child: SlideTransition(position: slide, child: child),
-                  );
-                },
-                child: _isQuestTab
-                    ? _buildQuestTabContent()
-                    : _buildPlayTabContent(context),
+              child: Stack(
+                children: [
+                  AnimatedSlide(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOutCubic,
+                    offset: _isQuestTab ? const Offset(-0.08, 0) : Offset.zero,
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 220),
+                      opacity: _isQuestTab ? 0 : 1,
+                      child: IgnorePointer(
+                        ignoring: _isQuestTab,
+                        child: _buildPlayTabContent(context),
+                      ),
+                    ),
+                  ),
+                  AnimatedSlide(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOutCubic,
+                    offset: _isQuestTab ? Offset.zero : const Offset(0.08, 0),
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 220),
+                      opacity: _isQuestTab ? 1 : 0,
+                      child: IgnorePointer(
+                        ignoring: !_isQuestTab,
+                        child: _buildQuestTabContent(),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
