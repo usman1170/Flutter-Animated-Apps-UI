@@ -1,17 +1,37 @@
-# Player
+# Futuristic Fitness UI
 
-A new Flutter project.
+A Flutter app UI concept for a futuristic fitness experience.
 
-## Getting Started
+The app focuses on a personalized journey where users can:
+- Customize their avatar with body-part style and outfit selections
+- Explore workout categories and plans
+- Track progress and workout history
+- Navigate through a modern, game-like fitness interface
 
-This project is a starting point for a Flutter application.
+## Core UI Modules
 
-A few resources to get you started if this is your first Flutter project:
+- `Lobby`: entry flow and team-style onboarding moments
+- `Home`: dashboard with core fitness actions and navigation
+- `Workout`: workout discovery and personal fitness flow
+- `History`: workout history and activity tracking cards
+- `Profile`: profile details, streaks, stats, locker, and avatar creator
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Tech Stack
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter
+- Dart
+- GetX (routing/state structure in this project)
+
+## Run Locally
+
+```bash
+flutter pub get
+flutter run
+```
+
+## Project Goal
+
+This repository is a UI-first fitness app prototype designed to showcase:
+- Futuristic visual direction
+- Avatar and body customization patterns
+- Scalable module-based Flutter architecture
