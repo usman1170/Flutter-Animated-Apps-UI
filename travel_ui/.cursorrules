@@ -18,3 +18,4 @@
 - **Text Style Rule:** Do not use `Theme.of(context).textTheme.bodyLarge`, `bodyMedium`, `bodySmall`, or similar `textTheme` shortcuts anywhere.
 - **Use Explicit TextStyle:** Always use explicit `TextStyle(...)` (or project constants that resolve to explicit `TextStyle`) for text styling.
 - **Module Component Placement:** Module-specific UI components must live inside that module only (for example `lib/app/modules/home/views/widgets/`).
+- **No Deprecated Methods:** Do not use deprecated methods. For example, instead of `withOpacity(...)` use `withAlpha(...)` with appropriate 0-255 values (e.g. `withOpacity(0.5)` -> `withAlpha(128)`).

@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Travel UI',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      initialRoute: AppPages.initial,
+      initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
     );
   }
