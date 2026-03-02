@@ -11,4 +11,18 @@ class TabsController extends GetxController {
   void onTabChanged(int index) {
     changeTab(index);
   }
+
+  void showBottomBar() {
+    if (!isBottomBarVisible.value) {
+      isBottomBarVisible.value = true;
+      update();
+    }
+  }
+
+  void hideBottomBar() {
+    if (isBottomBarVisible.value) {
+      isBottomBarVisible.value = false;
+      update();
+    }
+  }
 }

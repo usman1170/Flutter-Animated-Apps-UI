@@ -30,12 +30,11 @@ class OfferSection extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
-          height: 250,
-          child: ListView(
-            padding: const EdgeInsets.only(left: 16, right: 12),
-            scrollDirection: Axis.horizontal,
-            children: const [
+        SingleChildScrollView(
+          padding: const EdgeInsets.only(left: 16, right: 12),
+          scrollDirection: Axis.horizontal,
+          child: const Row(
+            children: [
               _OfferCard(
                 imageUrl:
                     'https://images.unsplash.com/photo-1573843981267-be1999ff37cd?q=80&w=1974&auto=format&fit=crop',
@@ -133,12 +132,7 @@ class _OfferCard extends StatelessWidget {
             style: AppTheme.titleLarge.copyWith(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 4),
-          Text(
-            subtitle,
-            style: AppTheme.bodySmall,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+          Text(subtitle, style: AppTheme.bodySmall),
         ],
       ),
     );

@@ -15,6 +15,7 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return GradientScaffold(
       body: SafeArea(
+        bottom: false,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,9 +25,9 @@ class HomeView extends GetView<HomeController> {
               FeaturedCard(),
               SizedBox(height: 8),
               OfferSection(),
-              SizedBox(height: 4),
+              SizedBox(height: 12),
               BrowseMoreSection(),
-              SizedBox(height: 20),
+              SizedBox(height: 120),
             ],
           ),
         ),
