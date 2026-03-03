@@ -6,6 +6,9 @@ import 'package:get/get.dart';
 import '../../../core/utils/consts.dart';
 import '../controllers/tabs_controller.dart';
 import '../../home/views/home_view.dart';
+import '../../search/views/search_view.dart';
+import '../../bookings/views/bookings_view.dart';
+import '../../profile/views/profile_view.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/gradient_scaffold.dart';
@@ -23,9 +26,9 @@ class TabsView extends GetView<TabsController> {
               index: controller.selectedIndex.value,
               children: const [
                 HomeView(),
-                _PlaceholderView('Search'),
-                _PlaceholderView('Bookings'),
-                _PlaceholderView('Account'),
+                SearchView(),
+                BookingsView(),
+                ProfileView(),
               ],
             ),
             AnimatedPositioned(
@@ -90,7 +93,7 @@ class _FloatingBottomBar extends GetView<TabsController> {
                   ),
                   _TabItem(
                     index: 3,
-                    label: 'Account',
+                    label: 'Profile',
                     icon: Icons.person_outline,
                   ),
                 ],
@@ -116,46 +119,39 @@ class _TabItem extends GetView<TabsController> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isActive = controller.selectedIndex.value == index;
+    return Obx(() {
+      final bool isActive = controller.selectedIndex.value == index;
 
-    return Expanded(
-      child: GestureDetector(
-        onTap: () => controller.changeTab(index),
-        behavior: HitTestBehavior.opaque,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                icon,
-                size: 30,
-                color: isActive ? AppColor.primary : AppColor.iconUnselected,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                label,
-                style: AppTheme.bodySmall.copyWith(
+      return Expanded(
+        child: GestureDetector(
+          onTap: () => controller.changeTab(index),
+          behavior: HitTestBehavior.opaque,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  icon,
+                  size: 30,
                   color: isActive ? AppColor.primary : AppColor.iconUnselected,
-                  fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
-                  fontSize: 11,
                 ),
-              ),
-            ],
+                const SizedBox(height: 4),
+                Text(
+                  label,
+                  style: AppTheme.bodySmall.copyWith(
+                    color: isActive
+                        ? AppColor.primary
+                        : AppColor.iconUnselected,
+                    fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                    fontSize: 11,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _PlaceholderView extends StatelessWidget {
-  const _PlaceholderView(this.title);
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text(title, style: AppTheme.titleLarge));
+      );
+    });
   }
 }

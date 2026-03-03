@@ -1,6 +1,9 @@
 import 'package:get/get.dart';
 
+import '../../bookings/bindings/bookings_binding.dart';
 import '../../home/bindings/home_binding.dart';
+import '../../profile/bindings/profile_binding.dart';
+import '../../search/bindings/search_binding.dart';
 import '../controllers/tabs_controller.dart';
 
 class TabsBinding extends Bindings {
@@ -8,5 +11,8 @@ class TabsBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<TabsController>(() => TabsController());
     HomeBinding().dependencies();
+    SearchBinding().dependencies();
+    BookingsBinding().dependencies();
+    ProfileBinding().dependencies();
   }
 }
