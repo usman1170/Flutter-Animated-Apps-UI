@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/bookings_controller.dart';
 
 class BookingsView extends GetView<BookingsController> {
@@ -232,69 +233,80 @@ class _BookingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isConfirmed = item.status == 'Confirmed';
-    return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: AppColor.white.withAlpha(222),
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(14),
-            child: Image.network(
-              item.imageUrl,
-              width: 84,
-              height: 84,
-              fit: BoxFit.cover,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.hotelName,
-                  style: AppTheme.titleMedium.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
+    return GestureDetector(
+      onTap: () => Get.toNamed(Routes.BOOKING_DETAILS, arguments: item),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 14),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppColor.white.withAlpha(222),
+          borderRadius: BorderRadius.circular(18),
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(14),
+              child: Hero(
+                tag: 'booking-image-${item.hotelName}',
+                child: Image.network(
+                  item.imageUrl,
+                  width: 84,
+                  height: 84,
+                  fit: BoxFit.cover,
                 ),
-                const SizedBox(height: 2),
-                Text(item.location, style: AppTheme.bodySmall),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isConfirmed
-                            ? AppColor.primary.withAlpha(35)
-                            : Colors.orange.withAlpha(35),
-                        borderRadius: BorderRadius.circular(999),
-                      ),
-                      child: Text(
-                        item.status,
-                        style: AppTheme.bodySmall.copyWith(
-                          fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.hotelName,
+                    style: AppTheme.titleMedium.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(item.location, style: AppTheme.bodySmall),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
                           color: isConfirmed
-                              ? AppColor.primary
-                              : const Color(0xFFB54708),
+                              ? AppColor.primary.withAlpha(35)
+                              : Colors.orange.withAlpha(35),
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                        child: Text(
+                          item.status,
+                          style: AppTheme.bodySmall.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: isConfirmed
+                                ? AppColor.primary
+                                : const Color(0xFFB54708),
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(item.dateLabel, style: AppTheme.bodySmall),
-                  ],
-                ),
-              ],
+                      const SizedBox(width: 8),
+                      Text(item.dateLabel, style: AppTheme.bodySmall),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            Icon(
+              Icons.chevron_right_rounded,
+              color: AppColor.textSecondary.withAlpha(170),
+              size: 20,
+            ),
+          ],
+        ),
       ),
     );
   }

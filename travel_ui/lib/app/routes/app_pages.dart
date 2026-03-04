@@ -2,8 +2,12 @@ import 'package:get/get.dart';
 
 import '../modules/bookings/bindings/bookings_binding.dart';
 import '../modules/bookings/views/bookings_view.dart';
+import '../modules/booking_details/bindings/booking_details_binding.dart';
+import '../modules/booking_details/views/booking_details_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/offer_details/bindings/offer_details_binding.dart';
+import '../modules/offer_details/views/offer_details_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/search/bindings/search_binding.dart';
@@ -43,6 +47,20 @@ class AppPages {
       name: _Paths.PROFILE,
       page: () => const ProfileView(),
       binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.OFFER_DETAILS,
+      page: () => const OfferDetailsView(),
+      binding: OfferDetailsBinding(),
+      transition: Transition.rightToLeftWithFade,
+      transitionDuration: const Duration(milliseconds: 380),
+    ),
+    GetPage(
+      name: _Paths.BOOKING_DETAILS,
+      page: () => const BookingDetailsView(),
+      binding: BookingDetailsBinding(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 360),
     ),
   ];
 }
