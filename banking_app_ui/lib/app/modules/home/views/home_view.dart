@@ -8,6 +8,9 @@ import 'widgets/quick_actions_section.dart';
 import 'widgets/spendings_section.dart';
 import 'widgets/cashback_banner.dart';
 import 'widgets/savings_card.dart';
+import 'widgets/loans_section.dart';
+import 'widgets/deposits_section.dart';
+import 'widgets/history_section.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -34,7 +37,13 @@ class HomeView extends GetView<HomeController> {
               CashbackBanner(),
               SizedBox(height: 18),
               SavingsCard(),
-              SizedBox(height: 24),
+              SizedBox(height: 28),
+              LoansSection(),
+              SizedBox(height: 28),
+              DepositsSection(),
+              SizedBox(height: 28),
+              HistorySection(),
+              SizedBox(height: 28),
             ],
           ),
         ),
