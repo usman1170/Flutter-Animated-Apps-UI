@@ -12,7 +12,7 @@ class CardsSection extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(width: 6),
+          const SizedBox(width: 12),
           _buildSideIcons(),
           const SizedBox(width: 10),
           Expanded(

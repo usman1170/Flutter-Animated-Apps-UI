@@ -33,4 +33,23 @@ class AppColor {
   static const Color cardStarYellow = Color(0xFFFBBF24);
   static const Color masterCardRed = Color(0xFFEB001B);
   static const Color masterCardOrange = Color(0xFFF79E1B);
+  static const Color surfaceSoft = Color(0xFFF5F5F7);
+  static const Color surfaceMuted = Color(0xFFF1F2F4);
+  static const Color surfaceLavender = Color(0xFFE8ECFA);
+  static const Color surfaceMint = Color(0xFFDEF2EE);
+  static const Color textStrong = Color(0xFF16181D);
+  static const Color textMuted = Color(0xFF7B7C80);
+  static const Color textMid = Color(0xFF2A2D33);
+  static const Color paymentsBlue = Color(0xFF4F97EA);
+  static const Color paymentsBlueSoft = Color(0xFFBFDFFF);
+  static const Color paymentsBlueCard = Color(0xFF7EBBFA);
+  static const Color paymentsMint = Color(0xFF56C5AA);
+  static const Color badgeRed = Color(0xFFFF4D57);
+  static const Color iconDark = Color(0xFF23262B);
+  static const Color iconGrey = Color(0xFFABACB0);
+  static const Color splashStart = Color(0xFFEAF5FF);
+  static const Color splashEnd = Color(0xFFB8DEFF);
+  static const Color splashCard = Color(0xFF5EA9F7);
+  static const Color splashCardSoft = Color(0xFFD9ECFF);
+  static const Color splashInk = Color(0xFF20324A);
 }

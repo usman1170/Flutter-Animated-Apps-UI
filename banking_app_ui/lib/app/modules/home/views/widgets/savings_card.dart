@@ -41,7 +41,7 @@ class SavingsCard extends StatelessWidget {
             const Positioned(
               left: 20,
               right: 128,
-              top: 26,
+              top: 24,
               child: _SavingsCopy(),
             ),
             Positioned(
@@ -105,6 +105,15 @@ class _SavingsCopy extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+        ),
+        const SizedBox(height: 14),
+        const Text(
+          'Annual interest on your balance',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFF42627D),
           ),
         ),
       ],

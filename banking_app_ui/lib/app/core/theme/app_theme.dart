@@ -9,7 +9,7 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: AppColor.white,
-      fontFamily: GoogleFonts.inter().fontFamily,
+      fontFamily: GoogleFonts.roboto().fontFamily,
       colorScheme: const ColorScheme.light(
         primary: AppColor.accentBlue,
         surface: AppColor.white,

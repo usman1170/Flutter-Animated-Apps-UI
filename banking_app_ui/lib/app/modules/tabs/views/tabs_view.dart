@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../home/views/home_view.dart';
+import '../../payments/views/payments_view.dart';
 import '../controllers/tabs_controller.dart';
 
 class TabsView extends GetView<TabsController> {
@@ -12,7 +13,7 @@ class TabsView extends GetView<TabsController> {
   Widget build(BuildContext context) {
     final pages = [
       const HomeView(),
-      const _PlaceholderPage(title: 'Payments'),
+      const PaymentsView(),
       const _PlaceholderPage(title: 'History'),
       const _PlaceholderPage(title: 'Profile'),
     ];
