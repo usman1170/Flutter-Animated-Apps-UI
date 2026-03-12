@@ -3,8 +3,8 @@ import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../../core/theme/app_colors.dart';
 
-class HistorySection extends StatelessWidget {
-  const HistorySection({super.key});
+class CardDetailsHistoryBlock extends StatelessWidget {
+  const CardDetailsHistoryBlock({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,91 +21,63 @@ class HistorySection extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF16181D),
-                  letterSpacing: -0.5,
+                  color: AppColor.textStrong,
                 ),
               ),
               Text(
                 'All',
                 style: TextStyle(
-                  fontSize: 13,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF4F97EA),
+                  color: AppColor.paymentsBlue,
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 14),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 18),
             decoration: BoxDecoration(
-              color: const Color(0xFFF5F5F7),
-              borderRadius: BorderRadius.circular(24),
+              color: AppColor.surfaceSoft,
+              borderRadius: BorderRadius.circular(26),
             ),
             child: const Column(
               children: [
-                _HistoryRow(
-                  leading: _IncomingBadge(),
+                _HistoryItem(
+                  icon: LucideIcons.arrowDownCircle,
                   title: 'George P.',
                   subtitle: 'April 13 • By card number',
                   amount: '+ \$ 7 292.07',
-                  amountColor: Color(0xFF2DC95C),
+                  amountColor: AppColor.successGreen,
+                  iconBg: AppColor.white,
+                  iconColor: AppColor.textStrong,
                 ),
                 SizedBox(height: 18),
-                _HistoryRow(
-                  leading: _MerchantBadge(
-                    backgroundColor: Color(0xFFBF0010),
-                    child: Text(
-                      'CITY',
-                      style: TextStyle(
-                        color: AppColor.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                  ),
+                _HistoryItem(
                   title: 'Yerevan City',
                   subtitle: 'April 13 • Supermarkets',
                   amount: '\$ 292.07',
+                  customBadge: _LogoBadge(
+                    text: 'CITY',
+                    bg: AppColor.masterCardRed,
+                  ),
                 ),
                 SizedBox(height: 18),
-                _HistoryRow(
-                  leading: _MerchantBadge(
-                    backgroundColor: AppColor.black,
-                    child: Icon(
-                      LucideIcons.slidersHorizontal,
-                      color: AppColor.white,
-                      size: 20,
-                    ),
-                  ),
+                _HistoryItem(
                   title: 'Talixo',
                   subtitle: 'April 13 • Taxi',
                   amount: '\$ 192.07',
+                  customBadge: _IconBadge(icon: LucideIcons.slidersHorizontal),
                 ),
                 SizedBox(height: 18),
-                _HistoryRow(
-                  leading: _MerchantBadge(
-                    backgroundColor: AppColor.black,
-                    child: Text(
-                      'JACOBS\nKITCHEN',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppColor.white,
-                        fontSize: 7,
-                        height: 1.05,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.2,
-                      ),
-                    ),
-                  ),
+                _HistoryItem(
                   title: 'Jacobs Kitchen',
                   subtitle: 'April 13 • By card number',
                   amount: '\$ 22.07',
+                  customBadge: _LogoBadge(text: 'JACOBS', bg: AppColor.black),
                 ),
               ],
             ),
@@ -116,26 +88,44 @@ class HistorySection extends StatelessWidget {
   }
 }
 
-class _HistoryRow extends StatelessWidget {
-  final Widget leading;
+class _HistoryItem extends StatelessWidget {
+  final IconData? icon;
   final String title;
   final String subtitle;
   final String amount;
   final Color amountColor;
+  final Color iconBg;
+  final Color iconColor;
+  final Widget? customBadge;
 
-  const _HistoryRow({
-    required this.leading,
+  const _HistoryItem({
+    this.icon,
     required this.title,
     required this.subtitle,
     required this.amount,
-    this.amountColor = const Color(0xFF1E2127),
+    this.amountColor = AppColor.textStrong,
+    this.iconBg = AppColor.white,
+    this.iconColor = AppColor.textStrong,
+    this.customBadge,
   });
 
   @override
   Widget build(BuildContext context) {
+    final badge =
+        customBadge ??
+        Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: iconBg,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Icon(icon, size: 24, color: iconColor),
+        );
+
     return Row(
       children: [
-        leading,
+        badge,
         const SizedBox(width: 12),
         Expanded(
           child: Column(
@@ -144,32 +134,29 @@ class _HistoryRow extends StatelessWidget {
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 15,
+                  fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF1E2127),
-                  letterSpacing: -0.3,
+                  color: AppColor.textStrong,
                 ),
               ),
-              const SizedBox(height: 3),
+              const SizedBox(height: 2),
               Text(
                 subtitle,
                 style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFF7B7C80),
+                  color: AppColor.secondaryText,
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(width: 10),
         Text(
           amount,
           style: TextStyle(
-            fontSize: 15,
+            fontSize: 16,
             fontWeight: FontWeight.w700,
             color: amountColor,
-            letterSpacing: -0.3,
           ),
         ),
       ],
@@ -177,45 +164,50 @@ class _HistoryRow extends StatelessWidget {
   }
 }
 
-class _IncomingBadge extends StatelessWidget {
-  const _IncomingBadge();
+class _LogoBadge extends StatelessWidget {
+  final String text;
+  final Color bg;
+
+  const _LogoBadge({required this.text, required this.bg});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 42,
-      height: 42,
+      width: 44,
+      height: 44,
       decoration: BoxDecoration(
-        color: AppColor.white,
-        borderRadius: BorderRadius.circular(14),
+        color: bg,
+        borderRadius: BorderRadius.circular(16),
       ),
-      child: const Center(
-        child: Icon(
-          LucideIcons.arrowDownCircle,
-          size: 24,
-          color: Color(0xFF23262B),
+      child: Center(
+        child: Text(
+          text,
+          style: const TextStyle(
+            fontSize: 9,
+            fontWeight: FontWeight.w800,
+            color: AppColor.white,
+          ),
         ),
       ),
     );
   }
 }
 
-class _MerchantBadge extends StatelessWidget {
-  final Color backgroundColor;
-  final Widget child;
+class _IconBadge extends StatelessWidget {
+  final IconData icon;
 
-  const _MerchantBadge({required this.backgroundColor, required this.child});
+  const _IconBadge({required this.icon});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 42,
-      height: 42,
+      width: 44,
+      height: 44,
       decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(14),
+        color: AppColor.black,
+        borderRadius: BorderRadius.circular(16),
       ),
-      child: Center(child: child),
+      child: Icon(icon, size: 22, color: AppColor.white),
     );
   }
 }

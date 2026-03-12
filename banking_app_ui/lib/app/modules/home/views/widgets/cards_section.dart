@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+
 import '../../../../core/theme/app_colors.dart';
+import '../../../../routes/app_pages.dart';
 
 class CardsSection extends StatelessWidget {
   const CardsSection({super.key});
@@ -56,97 +59,105 @@ class CardsSection extends StatelessWidget {
   }
 
   Widget _buildCreditCard() {
-    return Container(
-      width: 240,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            AppColor.creditCardGradientStart,
-            AppColor.creditCardGradientEnd,
-            AppColor.creditCardGradientEnd,
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Credit Card',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: AppColor.secondaryText,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            '\$ 2,540.05',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.w700,
-              color: AppColor.primaryText,
-            ),
-          ),
-          const Spacer(),
-          Row(
-            children: [
-              _buildMasterCardLogo(),
-              const SizedBox(width: 8),
-              _buildCardNumberPill(),
+    return GestureDetector(
+      onTap: () =>
+          Get.toNamed(Routes.CARD_DETAILS, arguments: {'type': 'credit'}),
+      child: Container(
+        width: 240,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColor.creditCardGradientStart,
+              AppColor.creditCardGradientEnd,
+              AppColor.creditCardGradientEnd,
             ],
           ),
-        ],
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Credit Card',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                color: AppColor.secondaryText,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '\$ 2,540.05',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w700,
+                color: AppColor.primaryText,
+              ),
+            ),
+            const Spacer(),
+            Row(
+              children: [
+                _buildMasterCardLogo(),
+                const SizedBox(width: 8),
+                _buildCardNumberPill(),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildDebitCard() {
-    return Container(
-      width: 240,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            AppColor.debitCardGradientStart,
-            AppColor.debitCardGradientEnd,
-            AppColor.debitCardGradientEnd,
-          ],
-          stops: [0.1, 0.5, 1],
+    return GestureDetector(
+      onTap: () =>
+          Get.toNamed(Routes.CARD_DETAILS, arguments: {'type': 'debit'}),
+      child: Container(
+        width: 240,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColor.debitCardGradientStart,
+              AppColor.debitCardGradientEnd,
+              AppColor.debitCardGradientEnd,
+            ],
+            stops: [0.1, 0.5, 1],
+          ),
+          borderRadius: BorderRadius.circular(20),
         ),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Debit Card',
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: AppColor.secondaryText,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Debit Card',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                color: AppColor.secondaryText,
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            '\$ 0.00',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.w700,
-              color: AppColor.primaryText,
+            const SizedBox(height: 8),
+            Text(
+              '\$ 0.00',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w700,
+                color: AppColor.primaryText,
+              ),
             ),
-          ),
-          const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [_buildCardNumberPillWithLogo()],
-          ),
-        ],
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [_buildCardNumberPillWithLogo()],
+            ),
+          ],
+        ),
       ),
     );
   }

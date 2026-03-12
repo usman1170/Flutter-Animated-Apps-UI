@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/card_details/bindings/card_details_binding.dart';
+import '../modules/card_details/views/card_details_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
@@ -29,6 +31,11 @@ class AppPages {
       name: _Paths.HOME,
       page: () => const HomeView(),
       binding: HomeBinding(),
+    ),
+    GetPage(
+      name: _Paths.CARD_DETAILS,
+      page: () => const CardDetailsView(),
+      binding: CardDetailsBinding(),
     ),
   ];
 }

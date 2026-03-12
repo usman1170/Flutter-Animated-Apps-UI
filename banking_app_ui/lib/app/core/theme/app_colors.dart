@@ -52,4 +52,18 @@ class AppColor {
   static const Color splashCard = Color(0xFF5EA9F7);
   static const Color splashCardSoft = Color(0xFFD9ECFF);
   static const Color splashInk = Color(0xFF20324A);
+  static const Color homeBg = Color(0xFFF7F7F8);
+  static const Color heroGlow = Color(0xFF66E5F5);
+  static const Color heroCircle = Color(0xFFFFFFFF);
+  static const Color heroCircleShadow = Color(0x22000000);
+  static const Color surfaceSheet = Color(0xFFFDFDFD);
+  static const Color overlayScrim = Color(0x220F172A);
+  static const Color successGreen = Color(0xFF29B45A);
+  static const Color warningOrange = Color(0xFFFFA94D);
+  static const Color profileBlue = Color(0xFFE8F1FF);
+  static const Color pageBlueTop = Color(0xFFF4FBFF);
+  static const Color pageBlueBottom = Color(0xFFDFF2FF);
+  static const Color pageGreenTop = Color(0xFFF5FCF6);
+  static const Color pageGreenBottom = Color(0xFFE4F7E7);
+  static const Color mutedBorder = Color(0xFFD6D9DE);
 }
