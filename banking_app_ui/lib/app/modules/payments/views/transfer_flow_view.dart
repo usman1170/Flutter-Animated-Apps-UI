@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../routes/app_pages.dart';
+import '../../tabs/controllers/tabs_controller.dart';
 import 'widgets/transfer_flow_chrome.dart';
 import 'widgets/transfer_flow_forms.dart';
 import 'widgets/transfer_flow_models.dart';
@@ -18,7 +20,8 @@ class TransferFlowView extends StatefulWidget {
   State<TransferFlowView> createState() => _TransferFlowViewState();
 }
 
-class _TransferFlowViewState extends State<TransferFlowView> {
+class _TransferFlowViewState extends State<TransferFlowView>
+    with TickerProviderStateMixin {
   final amountController = TextEditingController(text: '2450');
   final otpController = TextEditingController(text: '4582');
   final cardNumberController = TextEditingController(
@@ -82,6 +85,11 @@ class _TransferFlowViewState extends State<TransferFlowView> {
                           subtitle: widget.type.subtitle,
                         ),
                       ),
+                      const SizedBox(width: 14),
+                      TransferRoundButton(
+                        icon: LucideIcons.home,
+                        onTap: _goHome,
+                      ),
                     ],
                   ),
                 ),
@@ -90,7 +98,6 @@ class _TransferFlowViewState extends State<TransferFlowView> {
                   child: TransferStepProgress(
                     labels: steps,
                     currentIndex: currentStep,
-                    accent: widget.type.accent,
                   ),
                 ),
                 Expanded(
@@ -106,56 +113,82 @@ class _TransferFlowViewState extends State<TransferFlowView> {
                           accent: widget.type.accent,
                         ),
                         const SizedBox(height: 18),
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 320),
-                          switchInCurve: Curves.easeOutCubic,
-                          switchOutCurve: Curves.easeInCubic,
-                          transitionBuilder: (child, animation) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: SlideTransition(
-                                position: Tween<Offset>(
-                                  begin: const Offset(0.05, 0),
-                                  end: Offset.zero,
-                                ).animate(animation),
-                                child: child,
-                              ),
-                            );
-                          },
-                          child: isReceiptStep
-                              ? TransferReceiptCard(
-                                  key: const ValueKey('receipt'),
-                                  type: widget.type,
-                                  amount: amountController.text,
-                                  fromLabel: _fromLabel,
-                                  toLabel: _toLabel,
-                                  reference: purposeController.text,
-                                  bank: selectedBank,
-                                )
-                              : TransferFlowForms(
-                                  key: ValueKey(
-                                    '${widget.type.name}-$currentStep',
-                                  ),
-                                  type: widget.type,
-                                  currentStep: currentStep,
-                                  selectedBank: selectedBank,
-                                  fromAccount: fromAccount,
-                                  toAccount: toAccount,
-                                  amountController: amountController,
-                                  otpController: otpController,
-                                  cardNumberController: cardNumberController,
-                                  cardHolderController: cardHolderController,
-                                  bankAccountController: bankAccountController,
-                                  accountTitleController:
-                                      accountTitleController,
-                                  purposeController: purposeController,
-                                  onBankChanged: (value) =>
-                                      setState(() => selectedBank = value),
-                                  onFromChanged: (value) =>
-                                      setState(() => fromAccount = value),
-                                  onToChanged: (value) =>
-                                      setState(() => toAccount = value),
+                        AnimatedSize(
+                          duration: const Duration(milliseconds: 360),
+                          curve: Curves.easeOutCubic,
+                          alignment: Alignment.topCenter,
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 320),
+                            switchInCurve: Curves.easeOutCubic,
+                            switchOutCurve: Curves.easeOutCubic,
+                            layoutBuilder: (currentChild, previousChildren) {
+                              return Stack(
+                                alignment: Alignment.topCenter,
+                                children: [
+                                  ...previousChildren,
+                                  ...?(currentChild != null
+                                      ? [currentChild]
+                                      : null),
+                                ],
+                              );
+                            },
+                            transitionBuilder: (child, animation) {
+                              return FadeTransition(
+                                opacity: CurvedAnimation(
+                                  parent: animation,
+                                  curve: Curves.easeOutCubic,
                                 ),
+                                child: SlideTransition(
+                                  position:
+                                      Tween<Offset>(
+                                        begin: const Offset(0.02, 0.02),
+                                        end: Offset.zero,
+                                      ).animate(
+                                        CurvedAnimation(
+                                          parent: animation,
+                                          curve: Curves.easeOutCubic,
+                                        ),
+                                      ),
+                                  child: child,
+                                ),
+                              );
+                            },
+                            child: isReceiptStep
+                                ? TransferReceiptCard(
+                                    key: const ValueKey('receipt'),
+                                    type: widget.type,
+                                    amount: amountController.text,
+                                    fromLabel: _fromLabel,
+                                    toLabel: _toLabel,
+                                    reference: purposeController.text,
+                                    bank: selectedBank,
+                                  )
+                                : TransferFlowForms(
+                                    key: ValueKey(
+                                      '${widget.type.name}-$currentStep',
+                                    ),
+                                    type: widget.type,
+                                    currentStep: currentStep,
+                                    selectedBank: selectedBank,
+                                    fromAccount: fromAccount,
+                                    toAccount: toAccount,
+                                    amountController: amountController,
+                                    otpController: otpController,
+                                    cardNumberController: cardNumberController,
+                                    cardHolderController: cardHolderController,
+                                    bankAccountController:
+                                        bankAccountController,
+                                    accountTitleController:
+                                        accountTitleController,
+                                    purposeController: purposeController,
+                                    onBankChanged: (value) =>
+                                        setState(() => selectedBank = value),
+                                    onFromChanged: (value) =>
+                                        setState(() => fromAccount = value),
+                                    onToChanged: (value) =>
+                                        setState(() => toAccount = value),
+                                  ),
+                          ),
                         ),
                       ],
                     ),
@@ -184,6 +217,23 @@ class _TransferFlowViewState extends State<TransferFlowView> {
   void _next() {
     if (!_isCurrentStepValid()) return;
     setState(() => currentStep += 1);
+  }
+
+  void _goHome() {
+    if (Get.isRegistered<TabsController>()) {
+      Get.find<TabsController>().changeTab(0);
+    }
+
+    var foundTabs = false;
+    Get.until((route) {
+      final isTabs = route.settings.name == Routes.TABS;
+      if (isTabs) foundTabs = true;
+      return isTabs || route.isFirst;
+    });
+
+    if (!foundTabs) {
+      Get.offAllNamed(Routes.TABS);
+    }
   }
 
   bool _isCurrentStepValid() {

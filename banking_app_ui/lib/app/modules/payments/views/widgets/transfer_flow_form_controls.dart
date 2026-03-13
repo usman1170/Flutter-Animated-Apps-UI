@@ -188,6 +188,7 @@ class TransferField extends StatelessWidget {
   final IconData icon;
   final TextEditingController controller;
   final TextInputType? keyboardType;
+  final ValueChanged<String>? onChanged;
 
   const TransferField({
     super.key,
@@ -195,6 +196,7 @@ class TransferField extends StatelessWidget {
     required this.icon,
     required this.controller,
     this.keyboardType,
+    this.onChanged,
   });
 
   @override
@@ -202,6 +204,7 @@ class TransferField extends StatelessWidget {
     return TextField(
       controller: controller,
       keyboardType: keyboardType,
+      onChanged: onChanged,
       style: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w700,

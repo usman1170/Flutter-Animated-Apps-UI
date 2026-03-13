@@ -111,12 +111,9 @@ class TransferReceiptCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 18),
-          SizedBox(
-            height: 14,
-            width: double.infinity,
-            child: CustomPaint(
-              painter: _DashPainter(color: AppColor.dividerColor(context)),
-            ),
+          _ReceiptDivider(
+            lineColor: AppColor.dividerColor(context),
+            cutColor: AppColor.screenBackground(context),
           ),
           const SizedBox(height: 14),
           _ReceiptRow(label: 'Bank', value: bank),
@@ -133,6 +130,63 @@ class TransferReceiptCard extends StatelessWidget {
                 'UBL-${DateTime.now().millisecondsSinceEpoch.toString().substring(6)}',
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _ReceiptDivider extends StatelessWidget {
+  final Color lineColor;
+
+  const _ReceiptDivider({required this.lineColor, required Color cutColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SizedBox(
+          height: 32,
+          width: double.infinity,
+          child: OverflowBox(
+            minWidth: constraints.maxWidth + 40,
+            maxWidth: constraints.maxWidth + 40,
+            alignment: Alignment.center,
+            child: SizedBox(
+              width: constraints.maxWidth + 40,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Positioned.fill(
+                    child: Center(
+                      child: CustomPaint(
+                        size: const Size(double.infinity, 14),
+                        painter: _DashPainter(color: lineColor, inset: 10),
+                      ),
+                    ),
+                  ),
+                  const Positioned(left: -15, child: _ReceiptCutout()),
+                  const Positioned(right: -15, child: _ReceiptCutout()),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _ReceiptCutout extends StatelessWidget {
+  const _ReceiptCutout();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 32,
+      height: 32,
+      decoration: BoxDecoration(
+        color: AppColor.screenBackground(context),
+        shape: BoxShape.circle,
       ),
     );
   }
@@ -225,8 +279,9 @@ class _ReceiptRow extends StatelessWidget {
 
 class _DashPainter extends CustomPainter {
   final Color color;
+  final double inset;
 
-  const _DashPainter({required this.color});
+  const _DashPainter({required this.color, this.inset = 0});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -234,11 +289,12 @@ class _DashPainter extends CustomPainter {
       ..color = color
       ..strokeWidth = 1.1
       ..strokeCap = StrokeCap.round;
-    double start = 0;
-    while (start < size.width) {
+    double start = inset;
+    final end = size.width - inset;
+    while (start < end) {
       canvas.drawLine(
         Offset(start, size.height / 2),
-        Offset(math.min(start + 8, size.width), size.height / 2),
+        Offset(math.min(start + 8, end), size.height / 2),
         paint,
       );
       start += 13;

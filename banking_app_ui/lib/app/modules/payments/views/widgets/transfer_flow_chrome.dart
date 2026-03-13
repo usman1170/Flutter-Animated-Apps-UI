@@ -89,67 +89,31 @@ class TransferHeroCard extends StatelessWidget {
 class TransferStepProgress extends StatelessWidget {
   final List<String> labels;
   final int currentIndex;
-  final Color accent;
 
   const TransferStepProgress({
     super.key,
     required this.labels,
     required this.currentIndex,
-    required this.accent,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 76,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          final isActive = index == currentIndex;
-          final isDone = index < currentIndex;
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 240),
-            width: 98,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-            decoration: BoxDecoration(
-              color: isActive
-                  ? accent.withAlpha(22)
-                  : AppColor.elevatedSurface(context).withAlpha(220),
-              borderRadius: BorderRadius.circular(22),
-              border: Border.all(
-                color: isDone || isActive
-                    ? accent.withAlpha(140)
-                    : AppColor.dividerColor(context),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${index + 1}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w800,
-                    color: isDone || isActive
-                        ? accent
-                        : AppColor.secondaryLabel(context),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  labels[index],
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: AppColor.primaryLabel(context),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-        separatorBuilder: (_, _) => const SizedBox(width: 10),
-        itemCount: labels.length,
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 240),
+      switchInCurve: Curves.easeOutCubic,
+      switchOutCurve: Curves.easeInCubic,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          labels[currentIndex],
+          key: ValueKey(labels[currentIndex]),
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w800,
+            color: AppColor.primaryLabel(context),
+          ),
+        ),
       ),
     );
   }
