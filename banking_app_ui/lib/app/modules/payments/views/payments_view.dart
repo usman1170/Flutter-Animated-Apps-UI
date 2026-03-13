@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../routes/app_pages.dart';
+import 'widgets/transfer_flow_models.dart';
 import 'widgets/payments_banner.dart';
 import 'widgets/payments_favorites_panel.dart';
 import 'widgets/payments_section.dart';
@@ -54,33 +57,37 @@ class PaymentsView extends StatelessWidget {
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.only(top: 8, bottom: 12),
-          child: const Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PaymentsFavoritesPanel(),
-              SizedBox(height: 16),
+              const PaymentsFavoritesPanel(),
+              const SizedBox(height: 16),
               PaymentsSection(
                 title: 'Transfer Money',
                 actionLabel: 'All',
+                onItemTap: _handleTransferAction,
                 items: [
                   PaymentSectionItem(
                     iconKey: PaymentSectionIcon.transfer,
                     label: 'Between my\nAccounts',
+                    action: PaymentSectionAction.transferBetweenAccounts,
                   ),
                   PaymentSectionItem(
                     iconKey: PaymentSectionIcon.card,
                     label: 'By Card\nNumber',
+                    action: PaymentSectionAction.transferByCardNumber,
                   ),
                   PaymentSectionItem(
                     iconKey: PaymentSectionIcon.user,
                     label: 'By Account\nDetails',
+                    action: PaymentSectionAction.transferByAccountDetails,
                   ),
                 ],
               ),
-              SizedBox(height: 18),
-              PaymentsBanner(),
-              SizedBox(height: 20),
-              PaymentsSection(
+              const SizedBox(height: 18),
+              const PaymentsBanner(),
+              const SizedBox(height: 20),
+              const PaymentsSection(
                 title: 'Payments',
                 actionLabel: 'All',
                 items: [
@@ -104,5 +111,21 @@ class PaymentsView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _handleTransferAction(PaymentSectionItem item) {
+    final flowType = switch (item.action) {
+      PaymentSectionAction.transferBetweenAccounts =>
+        TransferFlowType.betweenAccounts,
+      PaymentSectionAction.transferByCardNumber =>
+        TransferFlowType.byCardNumber,
+      PaymentSectionAction.transferByAccountDetails =>
+        TransferFlowType.byAccountDetails,
+      PaymentSectionAction.none => null,
+    };
+
+    if (flowType == null) return;
+
+    Get.toNamed(Routes.TRANSFER_FLOW, arguments: flowType);
   }
 }

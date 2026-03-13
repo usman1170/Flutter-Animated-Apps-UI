@@ -4,6 +4,8 @@ import '../modules/card_details/bindings/card_details_binding.dart';
 import '../modules/card_details/views/card_details_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/payments/views/transfer_flow_view.dart';
+import '../modules/payments/views/widgets/transfer_flow_models.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/tabs/bindings/tabs_binding.dart';
@@ -36,6 +38,14 @@ class AppPages {
       name: _Paths.CARD_DETAILS,
       page: () => const CardDetailsView(),
       binding: CardDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.TRANSFER_FLOW,
+      page: () => TransferFlowView(
+        type:
+            Get.arguments as TransferFlowType? ??
+            TransferFlowType.byAccountDetails,
+      ),
     ),
   ];
 }

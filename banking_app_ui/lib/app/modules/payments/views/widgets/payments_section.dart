@@ -7,12 +7,14 @@ class PaymentsSection extends StatelessWidget {
   final String title;
   final String actionLabel;
   final List<PaymentSectionItem> items;
+  final ValueChanged<PaymentSectionItem>? onItemTap;
 
   const PaymentsSection({
     super.key,
     required this.title,
     required this.actionLabel,
     required this.items,
+    this.onItemTap,
   });
 
   @override
@@ -54,7 +56,10 @@ class PaymentsSection extends StatelessWidget {
             separatorBuilder: (_, _) => const SizedBox(width: 12),
             itemBuilder: (context, index) {
               final item = items[index];
-              return _PaymentCard(item: item);
+              return _PaymentCard(
+                item: item,
+                onTap: onItemTap == null ? null : () => onItemTap!(item),
+              );
             },
           ),
         ),
@@ -66,45 +71,68 @@ class PaymentsSection extends StatelessWidget {
 class PaymentSectionItem {
   final PaymentSectionIcon iconKey;
   final String label;
+  final PaymentSectionAction action;
 
-  const PaymentSectionItem({required this.iconKey, required this.label});
+  const PaymentSectionItem({
+    required this.iconKey,
+    required this.label,
+    this.action = PaymentSectionAction.none,
+  });
 }
 
 enum PaymentSectionIcon { transfer, card, user, phone, internet, home }
 
+enum PaymentSectionAction {
+  none,
+  transferBetweenAccounts,
+  transferByCardNumber,
+  transferByAccountDetails,
+}
+
 class _PaymentCard extends StatelessWidget {
   final PaymentSectionItem item;
+  final VoidCallback? onTap;
 
-  const _PaymentCard({required this.item});
+  const _PaymentCard({required this.item, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 118,
-      padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
-      decoration: BoxDecoration(
-        color: AppColor.softSurface(context),
-        borderRadius: BorderRadius.circular(22),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
-            _resolveIcon(item.iconKey),
-            size: 28,
-            color: AppColor.paymentsBlue,
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 220),
+        width: 118,
+        padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
+        decoration: BoxDecoration(
+          color: AppColor.softSurface(context),
+          borderRadius: BorderRadius.circular(22),
+          border: Border.all(
+            color: onTap == null
+                ? Colors.transparent
+                : Theme.of(context).colorScheme.primary.withAlpha(18),
           ),
-          const SizedBox(height: 28),
-          Text(
-            item.label,
-            style: TextStyle(
-              fontSize: 13,
-              height: 1.3,
-              fontWeight: FontWeight.w500,
-              color: AppColor.primaryLabel(context),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              _resolveIcon(item.iconKey),
+              size: 28,
+              color: AppColor.paymentsBlue,
             ),
-          ),
-        ],
+            const SizedBox(height: 28),
+            Text(
+              item.label,
+              style: TextStyle(
+                fontSize: 13,
+                height: 1.3,
+                fontWeight: FontWeight.w500,
+                color: AppColor.primaryLabel(context),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
