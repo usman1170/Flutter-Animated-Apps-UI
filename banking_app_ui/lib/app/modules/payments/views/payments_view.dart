@@ -59,8 +59,6 @@ class PaymentsView extends StatelessWidget {
             children: [
               PaymentsFavoritesPanel(),
               SizedBox(height: 16),
-              PaymentsBanner(),
-              SizedBox(height: 20),
               PaymentsSection(
                 title: 'Transfer Money',
                 actionLabel: 'All',
@@ -80,6 +78,8 @@ class PaymentsView extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 18),
+              PaymentsBanner(),
+              SizedBox(height: 20),
               PaymentsSection(
                 title: 'Payments',
                 actionLabel: 'All',
