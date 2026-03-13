@@ -16,7 +16,7 @@ class TabsView extends GetView<TabsController> {
     final sheetHeight = MediaQuery.of(context).size.height * 0.82;
 
     return Scaffold(
-      backgroundColor: AppColor.homeBg,
+      backgroundColor: AppColor.screenBackground(context),
       extendBody: true,
       body: Obx(
         () => Stack(
@@ -26,7 +26,7 @@ class TabsView extends GetView<TabsController> {
               Positioned.fill(
                 child: GestureDetector(
                   onTap: controller.closeSheet,
-                  child: Container(color: AppColor.overlayScrim),
+                  child: Container(color: AppColor.overlay(context)),
                 ),
               ),
             Align(

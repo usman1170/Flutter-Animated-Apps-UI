@@ -15,13 +15,13 @@ class CardDetailsHistoryBlock extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
+            children: [
               Text(
                 'History',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: AppColor.textStrong,
+                  color: AppColor.primaryLabel(context),
                 ),
               ),
               Text(
@@ -29,7 +29,7 @@ class CardDetailsHistoryBlock extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: AppColor.paymentsBlue,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ],
@@ -41,7 +41,7 @@ class CardDetailsHistoryBlock extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 18),
             decoration: BoxDecoration(
-              color: AppColor.surfaceSoft,
+              color: AppColor.softSurface(context),
               borderRadius: BorderRadius.circular(26),
             ),
             child: const Column(
@@ -133,19 +133,19 @@ class _HistoryItem extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: AppColor.textStrong,
+                  color: AppColor.primaryLabel(context),
                 ),
               ),
               const SizedBox(height: 2),
               Text(
                 subtitle,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: AppColor.secondaryText,
+                  color: AppColor.secondaryLabel(context),
                 ),
               ),
             ],

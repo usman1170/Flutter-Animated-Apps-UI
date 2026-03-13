@@ -1,3 +1,4 @@
+import '../../../../core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
@@ -32,10 +33,10 @@ class _SectionTitle extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w700,
-          color: Color(0xFF16181D),
+          color: AppColor.primaryLabel(context),
           letterSpacing: -0.5,
         ),
       ),
@@ -61,7 +62,7 @@ class _FinanceTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: BoxDecoration(
-          color: const Color(0xFFF5F5F7),
+          color: AppColor.softSurface(context),
           borderRadius: BorderRadius.circular(24),
         ),
         child: Row(
@@ -70,11 +71,15 @@ class _FinanceTile extends StatelessWidget {
               width: 54,
               height: 54,
               decoration: BoxDecoration(
-                color: const Color(0xFFE8ECFA),
+                color: AppColor.lavenderSoft(context),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Center(
-                child: Icon(icon, color: const Color(0xFF4188D9), size: 24),
+                child: Icon(
+                  icon,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 24,
+                ),
               ),
             ),
             const SizedBox(width: 16),
@@ -84,29 +89,29 @@ class _FinanceTile extends StatelessWidget {
                 children: [
                   Text(
                     amount,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
-                      color: Color(0xFF1E2127),
+                      color: AppColor.primaryLabel(context),
                       letterSpacing: -0.4,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     subtitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xFF7B7C80),
+                      color: AppColor.secondaryLabel(context),
                     ),
                   ),
                 ],
               ),
             ),
-            const Icon(
+            Icon(
               LucideIcons.chevronRight,
               size: 26,
-              color: Color(0xFFABACB0),
+              color: AppColor.tertiaryLabel(context),
             ),
           ],
         ),

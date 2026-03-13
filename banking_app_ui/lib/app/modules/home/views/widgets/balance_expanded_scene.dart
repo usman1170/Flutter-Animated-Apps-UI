@@ -48,12 +48,12 @@ class _BalancePanel extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: AppColor.white,
+        color: AppColor.elevatedSurface(context),
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: AppColor.black.withAlpha(10),
-            blurRadius: 14,
+            color: AppColor.black.withAlpha(AppColor.isDark(context) ? 36 : 10),
+            blurRadius: AppColor.isDark(context) ? 24 : 14,
             offset: const Offset(0, 8),
           ),
         ],
@@ -65,16 +65,18 @@ class _BalancePanel extends StatelessWidget {
             height: 56,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: AppColor.paymentsBlue.withAlpha(26),
+              color: Theme.of(context).colorScheme.primary.withAlpha(
+                AppColor.isDark(context) ? 44 : 26,
+              ),
             ),
-            child: const Icon(
+            child: Icon(
               LucideIcons.wallet,
               size: 24,
-              color: AppColor.paymentsBlue,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           const SizedBox(width: 14),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -83,7 +85,7 @@ class _BalancePanel extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
-                    color: AppColor.secondaryText,
+                    color: AppColor.secondaryLabel(context),
                   ),
                 ),
                 SizedBox(height: 6),
@@ -92,7 +94,7 @@ class _BalancePanel extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w700,
-                    color: AppColor.textStrong,
+                    color: AppColor.primaryLabel(context),
                     letterSpacing: -0.7,
                   ),
                 ),
@@ -108,7 +110,7 @@ class _BalancePanel extends StatelessWidget {
                   vertical: 8,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColor.surfaceMint,
+                  color: AppColor.mintSoft(context),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Text(
@@ -129,13 +131,13 @@ class _BalancePanel extends StatelessWidget {
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColor.surfaceMuted,
+                    color: AppColor.mutedSurface(context),
                     borderRadius: BorderRadius.circular(14),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     LucideIcons.eyeOff,
                     size: 18,
-                    color: AppColor.textMid,
+                    color: AppColor.primaryLabel(context),
                   ),
                 ),
               ),
@@ -163,7 +165,7 @@ class _StatusCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
-        color: AppColor.white,
+        color: AppColor.elevatedSurface(context),
         borderRadius: BorderRadius.circular(22),
       ),
       child: Column(
@@ -171,10 +173,10 @@ class _StatusCard extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: AppColor.secondaryText,
+              color: AppColor.secondaryLabel(context),
             ),
           ),
           const SizedBox(height: 8),
@@ -191,10 +193,10 @@ class _StatusCard extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 value,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: AppColor.textStrong,
+                  color: AppColor.primaryLabel(context),
                 ),
               ),
             ],

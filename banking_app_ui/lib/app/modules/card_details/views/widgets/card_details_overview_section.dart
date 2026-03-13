@@ -3,6 +3,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../controllers/card_details_controller.dart';
+import 'card_details_header_card.dart';
 
 class CardDetailsOverviewSection extends StatelessWidget {
   final CardDetailsController controller;
@@ -11,41 +12,44 @@ class CardDetailsOverviewSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final actions = controller.isCredit
+        ? const [
+            (LucideIcons.arrowDownCircle, 'Top-up'),
+            (LucideIcons.arrowUpCircle, 'Payments'),
+            (LucideIcons.refreshCcw, 'Transfer'),
+          ]
+        : const [
+            (LucideIcons.wallet, 'Cash out'),
+            (LucideIcons.barChart3, 'Insights'),
+            (LucideIcons.refreshCcw, 'Transfer'),
+          ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        CardDetailsHeaderCard(controller: controller),
+        const SizedBox(height: 24),
         Text(
           controller.balance,
           style: TextStyle(
             fontSize: 40,
             fontWeight: FontWeight.w700,
-            color: AppColor.textStrong.withAlpha(220),
+            color: AppColor.primaryLabel(context).withAlpha(220),
             letterSpacing: -1.3,
           ),
         ),
         const SizedBox(height: 24),
         Row(
-          children: const [
-            Expanded(
-              child: _ActionTile(
-                icon: LucideIcons.arrowDownCircle,
-                label: 'Top-up',
+          children: [
+            for (var index = 0; index < actions.length; index++) ...[
+              Expanded(
+                child: _ActionTile(
+                  icon: actions[index].$1,
+                  label: actions[index].$2,
+                ),
               ),
-            ),
-            SizedBox(width: 12),
-            Expanded(
-              child: _ActionTile(
-                icon: LucideIcons.arrowUpCircle,
-                label: 'Payments',
-              ),
-            ),
-            SizedBox(width: 12),
-            Expanded(
-              child: _ActionTile(
-                icon: LucideIcons.refreshCcw,
-                label: 'Transfer',
-              ),
-            ),
+              if (index != actions.length - 1) const SizedBox(width: 12),
+            ],
           ],
         ),
       ],
@@ -64,7 +68,7 @@ class _ActionTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 18),
       decoration: BoxDecoration(
-        color: AppColor.white,
+        color: AppColor.elevatedSurface(context),
         borderRadius: BorderRadius.circular(24),
       ),
       child: Column(
@@ -73,10 +77,10 @@ class _ActionTile extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
-              color: AppColor.textStrong,
+              color: AppColor.primaryLabel(context),
             ),
           ),
         ],

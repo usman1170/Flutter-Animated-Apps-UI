@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 class AppColor {
   AppColor._();
@@ -66,4 +66,115 @@ class AppColor {
   static const Color pageGreenTop = Color(0xFFF5FCF6);
   static const Color pageGreenBottom = Color(0xFFE4F7E7);
   static const Color mutedBorder = Color(0xFFD6D9DE);
+
+  static bool isDark(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark;
+
+  static Color screenBackground(BuildContext context) =>
+      isDark(context) ? const Color(0xFF232427) : homeBg;
+
+  static Color elevatedSurface(BuildContext context) =>
+      isDark(context) ? const Color(0xFF2B2E34) : white;
+
+  static Color softSurface(BuildContext context) =>
+      isDark(context) ? const Color(0xFF31343B) : surfaceSoft;
+
+  static Color mutedSurface(BuildContext context) =>
+      isDark(context) ? const Color(0xFF3A3D44) : surfaceMuted;
+
+  static Color sheetSurface(BuildContext context) =>
+      isDark(context) ? const Color(0xFF292C31) : surfaceSheet;
+
+  static Color primaryLabel(BuildContext context) =>
+      isDark(context) ? const Color(0xFFF4F5F7) : textStrong;
+
+  static Color secondaryLabel(BuildContext context) =>
+      isDark(context) ? const Color(0xFFB7BCC6) : secondaryText;
+
+  static Color tertiaryLabel(BuildContext context) =>
+      isDark(context) ? const Color(0xFF939AA8) : iconGrey;
+
+  static Color dividerColor(BuildContext context) =>
+      isDark(context) ? const Color(0xFF454A54) : divider;
+
+  static Color navInactive(BuildContext context) =>
+      isDark(context) ? const Color(0xFF969CAA) : bottomNavInactive;
+
+  static Color overlay(BuildContext context) =>
+      isDark(context) ? const Color(0xAA090B10) : overlayScrim;
+
+  static Color blueSoft(BuildContext context) =>
+      isDark(context) ? const Color(0xFF223748) : paymentsBlueSoft;
+
+  static Color mintSoft(BuildContext context) =>
+      isDark(context) ? const Color(0xFF1F3B36) : surfaceMint;
+
+  static Color lavenderSoft(BuildContext context) =>
+      isDark(context) ? const Color(0xFF343244) : surfaceLavender;
+
+  static Color heroGlowColor(BuildContext context) =>
+      isDark(context) ? const Color(0xFF2DE0FF) : heroGlow;
+
+  static Color heroOrb(BuildContext context) =>
+      isDark(context) ? const Color(0xFF4A4A4D) : heroCircle;
+
+  static Color heroShadow(BuildContext context) =>
+      isDark(context) ? const Color(0x5500D7FF) : heroCircleShadow;
+
+  static List<Color> splashGradient(BuildContext context) => isDark(context)
+      ? const [Color(0xFF171A20), Color(0xFF20242D)]
+      : const [splashStart, splashEnd];
+
+  static List<Color> savingsCardGradient(BuildContext context) =>
+      isDark(context)
+      ? const [Color(0xFF19364A), Color(0xFF24506B)]
+      : const [Color(0xFFBFE6FF), Color(0xFFA7DCFF)];
+
+  static List<Color> bankCardGradient(
+    BuildContext context, {
+    required bool isCredit,
+  }) {
+    if (!isDark(context)) {
+      return isCredit
+          ? const [
+              creditCardGradientStart,
+              creditCardGradientEnd,
+              creditCardGradientEnd,
+            ]
+          : const [
+              debitCardGradientStart,
+              debitCardGradientEnd,
+              debitCardGradientEnd,
+            ];
+    }
+
+    return isCredit
+        ? const [Color(0xFF1F2835), Color(0xFF264761), Color(0xFF1F2835)]
+        : const [Color(0xFF1F2A29), Color(0xFF28524A), Color(0xFF1F2A29)];
+  }
+
+  static List<Color> detailsPageGradient(
+    BuildContext context, {
+    required bool isCredit,
+  }) {
+    if (!isDark(context)) {
+      return isCredit
+          ? [pageBlueTop, pageBlueBottom, white.withAlpha(248), white]
+          : [pageGreenTop, pageGreenBottom, white.withAlpha(248), white];
+    }
+
+    return isCredit
+        ? const [
+            Color(0xFF151B22),
+            Color(0xFF192A36),
+            Color(0xFF20242A),
+            Color(0xFF232427),
+          ]
+        : const [
+            Color(0xFF151B1A),
+            Color(0xFF19322C),
+            Color(0xFF202524),
+            Color(0xFF232427),
+          ];
+  }
 }

@@ -13,11 +13,11 @@ class PaymentsSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColor.surfaceSheet,
+        color: AppColor.sheetSurface(context),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(34)),
         boxShadow: [
           BoxShadow(
-            color: AppColor.black.withAlpha(14),
+            color: AppColor.black.withAlpha(AppColor.isDark(context) ? 42 : 14),
             blurRadius: 24,
             offset: const Offset(0, -10),
           ),
@@ -35,7 +35,7 @@ class PaymentsSheet extends StatelessWidget {
                   width: 42,
                   height: 5,
                   decoration: BoxDecoration(
-                    color: AppColor.divider,
+                    color: AppColor.dividerColor(context),
                     borderRadius: BorderRadius.circular(999),
                   ),
                 ),
@@ -120,7 +120,9 @@ class _PaymentsSheetBackdrop extends StatelessWidget {
             height: 180,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: AppColor.paymentsBlueSoft.withAlpha(78),
+              color: AppColor.blueSoft(
+                context,
+              ).withAlpha(AppColor.isDark(context) ? 96 : 78),
             ),
           ),
         ),
@@ -132,7 +134,9 @@ class _PaymentsSheetBackdrop extends StatelessWidget {
             height: 170,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: AppColor.surfaceMint.withAlpha(84),
+              color: AppColor.mintSoft(
+                context,
+              ).withAlpha(AppColor.isDark(context) ? 98 : 84),
             ),
           ),
         ),
@@ -144,7 +148,9 @@ class _PaymentsSheetBackdrop extends StatelessWidget {
             height: 190,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: AppColor.surfaceLavender.withAlpha(68),
+              color: AppColor.lavenderSoft(
+                context,
+              ).withAlpha(AppColor.isDark(context) ? 90 : 68),
             ),
           ),
         ),
@@ -163,9 +169,16 @@ class _SheetHeader extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
         decoration: BoxDecoration(
-          color: AppColor.white.withAlpha(204),
+          color: AppColor.elevatedSurface(
+            context,
+          ).withAlpha(AppColor.isDark(context) ? 224 : 204),
           borderRadius: BorderRadius.circular(28),
-          border: Border.all(color: AppColor.white.withAlpha(120), width: 1.2),
+          border: Border.all(
+            color: AppColor.dividerColor(
+              context,
+            ).withAlpha(AppColor.isDark(context) ? 160 : 120),
+            width: 1.2,
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,14 +192,14 @@ class _SheetHeader extends StatelessWidget {
                     color: AppColor.paymentsBlue.withAlpha(24),
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     LucideIcons.creditCard,
                     size: 20,
-                    color: AppColor.paymentsBlue,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 const SizedBox(width: 12),
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -195,7 +208,7 @@ class _SheetHeader extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
-                          color: AppColor.textStrong,
+                          color: AppColor.primaryLabel(context),
                         ),
                       ),
                       SizedBox(height: 2),
@@ -204,7 +217,7 @@ class _SheetHeader extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
-                          color: AppColor.secondaryText,
+                          color: AppColor.secondaryLabel(context),
                         ),
                       ),
                     ],
@@ -263,7 +276,9 @@ class _HeaderMetric extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       decoration: BoxDecoration(
-        color: AppColor.white.withAlpha(165),
+        color: AppColor.elevatedSurface(
+          context,
+        ).withAlpha(AppColor.isDark(context) ? 212 : 165),
         borderRadius: BorderRadius.circular(18),
       ),
       child: Column(
@@ -280,10 +295,10 @@ class _HeaderMetric extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w500,
-              color: AppColor.textMuted,
+              color: AppColor.secondaryLabel(context),
             ),
           ),
         ],

@@ -14,240 +14,266 @@ class CardDetailsView extends GetView<CardDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    final bgTop = controller.isCredit
-        ? AppColor.pageBlueTop
-        : AppColor.pageGreenTop;
-    final bgBottom = controller.isCredit
-        ? AppColor.pageBlueBottom
-        : AppColor.pageGreenBottom;
-
     return Scaffold(
-      backgroundColor: AppColor.white,
+      backgroundColor: AppColor.screenBackground(context),
       body: Stack(
         children: [
-          Container(
-            height: 420,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [bgTop, bgBottom],
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: AppColor.detailsPageGradient(
+                    context,
+                    isCredit: controller.isCredit,
+                  ),
+                  stops: const [0, 0.42, 0.72, 1],
+                ),
               ),
             ),
           ),
           SafeArea(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(bottom: 36),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 6, 20, 0),
-                    child: Row(
-                      children: [
-                        _topButton(LucideIcons.chevronLeft, Get.back),
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              controller.title,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: AppColor.textStrong,
-                              ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 6, 20, 18),
+                  child: Row(
+                    children: [
+                      _topButton(LucideIcons.chevronLeft, Get.back),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            controller.title,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: AppColor.primaryLabel(context),
                             ),
                           ),
                         ),
-                        _topButton(LucideIcons.moreVertical, null),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 38, 20, 0),
-                    child: CardDetailsOverviewSection(controller: controller),
-                  ),
-                  const SizedBox(height: 30),
-                  const CardDetailsSpendingSection(),
-                  const SizedBox(height: 28),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      controller.paymentTitle,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: AppColor.textStrong,
                       ),
-                    ),
+                      _topButton(LucideIcons.moreVertical, null),
+                    ],
                   ),
-                  const SizedBox(height: 14),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColor.surfaceSoft,
-                        borderRadius: BorderRadius.circular(26),
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 14,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColor.surfaceMint,
-                              borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(26),
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  LucideIcons.power,
-                                  size: 20,
-                                  color: AppColor.successGreen,
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Text(
-                                    controller.paymentBanner,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColor.successGreen,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    padding: const EdgeInsets.only(bottom: 36),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                          child: CardDetailsOverviewSection(
+                            controller: controller,
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        CardDetailsSpendingSection(controller: controller),
+                        const SizedBox(height: 28),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            controller.paymentTitle,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: AppColor.primaryLabel(context),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(16),
+                        ),
+                        const SizedBox(height: 14),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColor.softSurface(context),
+                              borderRadius: BorderRadius.circular(26),
+                            ),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        controller.paymentAmount,
-                                        style: const TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w700,
-                                          color: AppColor.textStrong,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 34,
-                                      height: 34,
-                                      decoration: BoxDecoration(
-                                        color: AppColor.mutedBorder,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: const Icon(
-                                        LucideIcons.helpCircle,
-                                        size: 18,
-                                        color: AppColor.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  controller.paymentText,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    height: 1.45,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColor.secondaryText,
-                                  ),
-                                ),
-                                const SizedBox(height: 18),
                                 Container(
                                   width: double.infinity,
                                   padding: const EdgeInsets.symmetric(
-                                    vertical: 16,
+                                    horizontal: 16,
+                                    vertical: 14,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: AppColor.paymentsBlue,
-                                    borderRadius: BorderRadius.circular(999),
-                                  ),
-                                  child: const Center(
-                                    child: Text(
-                                      'Pay Now',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColor.white,
-                                      ),
+                                    color: AppColor.mintSoft(context),
+                                    borderRadius: const BorderRadius.vertical(
+                                      top: Radius.circular(26),
                                     ),
                                   ),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        controller.isCredit
+                                            ? LucideIcons.power
+                                            : LucideIcons.shieldCheck,
+                                        size: 20,
+                                        color: controller.isCredit
+                                            ? AppColor.successGreen
+                                            : AppColor.paymentsMint,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                        child: Text(
+                                          controller.paymentBanner,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700,
+                                            color: controller.isCredit
+                                                ? AppColor.successGreen
+                                                : AppColor.paymentsMint,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              controller.paymentAmount,
+                                              style: TextStyle(
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.w700,
+                                                color: AppColor.primaryLabel(
+                                                  context,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            width: 34,
+                                            height: 34,
+                                            decoration: BoxDecoration(
+                                              color: AppColor.mutedSurface(
+                                                context,
+                                              ),
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: const Icon(
+                                              LucideIcons.helpCircle,
+                                              size: 18,
+                                              color: AppColor.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        controller.paymentText,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          height: 1.45,
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColor.secondaryLabel(
+                                            context,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 18),
+                                      Container(
+                                        width: double.infinity,
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 16,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: controller.isCredit
+                                              ? AppColor.paymentsBlue
+                                              : AppColor.paymentsMint,
+                                          borderRadius: BorderRadius.circular(
+                                            999,
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            controller.primaryButtonLabel,
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                              color: AppColor.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 18),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 18,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColor.surfaceSoft,
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      child: Row(
-                        children: const [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                        ),
+                        const SizedBox(height: 18),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 18,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColor.softSurface(context),
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            child: Row(
                               children: [
-                                Text(
-                                  'Autopay',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColor.textStrong,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        controller.autopayTitle,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColor.primaryLabel(context),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        controller.autopayText,
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          height: 1.45,
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColor.secondaryLabel(
+                                            context,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                SizedBox(height: 8),
-                                Text(
-                                  'Set up autopay to automatically cover card payments and pay fines',
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    height: 1.45,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColor.secondaryText,
-                                  ),
+                                Icon(
+                                  LucideIcons.chevronRight,
+                                  size: 24,
+                                  color: AppColor.tertiaryLabel(context),
                                 ),
                               ],
                             ),
                           ),
-                          Icon(
-                            LucideIcons.chevronRight,
-                            size: 24,
-                            color: AppColor.iconGrey,
-                          ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 28),
+                        const CardDetailsHistoryBlock(),
+                        const SizedBox(height: 28),
+                        const CardDetailsAccountBlock(),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 28),
-                  const CardDetailsHistoryBlock(),
-                  const SizedBox(height: 28),
-                  const CardDetailsAccountBlock(),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -262,11 +288,11 @@ class CardDetailsView extends GetView<CardDetailsController> {
       child: Container(
         width: 48,
         height: 48,
-        decoration: const BoxDecoration(
-          color: AppColor.white,
+        decoration: BoxDecoration(
+          color: AppColor.elevatedSurface(Get.context!),
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, size: 24, color: AppColor.textStrong),
+        child: Icon(icon, size: 24, color: AppColor.primaryLabel(Get.context!)),
       ),
     );
   }

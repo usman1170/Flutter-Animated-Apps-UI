@@ -20,11 +20,11 @@ class _SplashViewState extends State<SplashView> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [AppColor.splashStart, AppColor.splashEnd],
+            colors: AppColor.splashGradient(context),
           ),
         ),
         child: SafeArea(
@@ -36,23 +36,23 @@ class _SplashViewState extends State<SplashView> {
                 const Spacer(),
                 const _SplashArtwork(),
                 const SizedBox(height: 34),
-                const Text(
+                Text(
                   'USBank',
                   style: TextStyle(
                     fontSize: 34,
                     fontWeight: FontWeight.w700,
-                    color: AppColor.textStrong,
+                    color: AppColor.primaryLabel(context),
                     letterSpacing: -1,
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Text(
+                Text(
                   'Smart banking with clean transfers,\npayments, savings, and everyday control.',
                   style: TextStyle(
                     fontSize: 16,
                     height: 1.35,
                     fontWeight: FontWeight.w500,
-                    color: AppColor.splashInk,
+                    color: AppColor.secondaryLabel(context),
                   ),
                 ),
                 const SizedBox(height: 28),
@@ -60,12 +60,12 @@ class _SplashViewState extends State<SplashView> {
                   width: double.infinity,
                   height: 58,
                   decoration: BoxDecoration(
-                    color: AppColor.white.withAlpha(176),
+                    color: AppColor.elevatedSurface(context).withAlpha(176),
                     borderRadius: BorderRadius.circular(22),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       SizedBox(
                         width: 18,
                         height: 18,
@@ -82,7 +82,7 @@ class _SplashViewState extends State<SplashView> {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
-                          color: AppColor.textMid,
+                          color: AppColor.primaryLabel(context),
                         ),
                       ),
                     ],
@@ -115,7 +115,7 @@ class _SplashArtwork extends StatelessWidget {
               height: 250,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColor.white.withAlpha(78),
+                color: AppColor.elevatedSurface(context).withAlpha(78),
               ),
             ),
             Container(
@@ -123,7 +123,7 @@ class _SplashArtwork extends StatelessWidget {
               height: 198,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColor.white.withAlpha(120),
+                color: AppColor.elevatedSurface(context).withAlpha(120),
               ),
             ),
             Positioned(
@@ -135,7 +135,7 @@ class _SplashArtwork extends StatelessWidget {
                   width: 76,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: AppColor.splashCardSoft,
+                    color: AppColor.blueSoft(context),
                     borderRadius: BorderRadius.circular(18),
                   ),
                 ),
@@ -150,7 +150,7 @@ class _SplashArtwork extends StatelessWidget {
                   width: 86,
                   height: 54,
                   decoration: BoxDecoration(
-                    color: AppColor.white.withAlpha(168),
+                    color: AppColor.elevatedSurface(context).withAlpha(168),
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
@@ -182,12 +182,12 @@ class _SplashArtwork extends StatelessWidget {
                     height: 66,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColor.white.withAlpha(220),
+                      color: AppColor.elevatedSurface(context).withAlpha(220),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       LucideIcons.landmark,
                       size: 32,
-                      color: AppColor.splashInk,
+                      color: AppColor.primaryLabel(context),
                     ),
                   ),
                 ),
@@ -202,7 +202,7 @@ class _SplashArtwork extends StatelessWidget {
                   width: 42,
                   height: 14,
                   decoration: BoxDecoration(
-                    color: AppColor.white.withAlpha(206),
+                    color: AppColor.elevatedSurface(context).withAlpha(206),
                     borderRadius: BorderRadius.circular(999),
                   ),
                 ),

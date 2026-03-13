@@ -14,12 +14,12 @@ class PaymentsBanner extends StatelessWidget {
         height: 154,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: AppColor.paymentsBlueSoft,
+          color: AppColor.blueSoft(context),
           borderRadius: BorderRadius.circular(28),
         ),
         child: Stack(
           children: [
-            const Positioned(
+            Positioned(
               left: 20,
               top: 28,
               child: Text(
@@ -27,11 +27,11 @@ class PaymentsBanner extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
-                  color: AppColor.textStrong,
+                  color: AppColor.primaryLabel(context),
                 ),
               ),
             ),
-            const Positioned(
+            Positioned(
               left: 20,
               top: 74,
               child: Text(
@@ -40,7 +40,7 @@ class PaymentsBanner extends StatelessWidget {
                   fontSize: 17,
                   height: 1.15,
                   fontWeight: FontWeight.w500,
-                  color: AppColor.textMid,
+                  color: AppColor.primaryLabel(context),
                 ),
               ),
             ),
@@ -51,13 +51,13 @@ class PaymentsBanner extends StatelessWidget {
                 width: 34,
                 height: 34,
                 decoration: BoxDecoration(
-                  color: AppColor.white.withAlpha(190),
+                  color: AppColor.elevatedSurface(context).withAlpha(190),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
+                child: Icon(
                   LucideIcons.x,
                   size: 18,
-                  color: AppColor.textMuted,
+                  color: AppColor.secondaryLabel(context),
                 ),
               ),
             ),
@@ -123,7 +123,7 @@ class _LoanApprovedArt extends StatelessWidget {
               width: 34,
               height: 34,
               decoration: BoxDecoration(
-                color: AppColor.white,
+                color: AppColor.elevatedSurface(context),
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
@@ -163,7 +163,7 @@ class _CashStack extends StatelessWidget {
               width: 58,
               height: 26,
               decoration: BoxDecoration(
-                color: AppColor.white.withAlpha(235),
+                color: AppColor.elevatedSurface(context).withAlpha(235),
                 borderRadius: BorderRadius.circular(7),
               ),
             ),
@@ -175,7 +175,7 @@ class _CashStack extends StatelessWidget {
               width: 58,
               height: 26,
               decoration: BoxDecoration(
-                color: AppColor.white.withAlpha(245),
+                color: AppColor.elevatedSurface(context).withAlpha(245),
                 borderRadius: BorderRadius.circular(7),
               ),
             ),
@@ -184,7 +184,7 @@ class _CashStack extends StatelessWidget {
             width: 58,
             height: 26,
             decoration: BoxDecoration(
-              color: AppColor.white,
+              color: AppColor.elevatedSurface(context),
               borderRadius: BorderRadius.circular(7),
               boxShadow: [
                 BoxShadow(

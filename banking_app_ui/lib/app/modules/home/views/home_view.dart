@@ -20,7 +20,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.homeBg,
+      backgroundColor: AppColor.screenBackground(context),
       appBar: const HomeAppBar(),
       body: SafeArea(
         top: false,
@@ -98,28 +98,32 @@ class _HomeBackdrop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: const [
+      children: [
         Positioned(
           left: -60,
           top: 170,
           child: _HomeGlow(
             size: 220,
-            color: AppColor.paymentsBlueSoft,
-            alpha: 64,
+            color: AppColor.blueSoft(context),
+            alpha: AppColor.isDark(context) ? 110 : 64,
           ),
         ),
         Positioned(
           right: -70,
           top: 360,
-          child: _HomeGlow(size: 210, color: AppColor.surfaceMint, alpha: 88),
+          child: _HomeGlow(
+            size: 210,
+            color: AppColor.mintSoft(context),
+            alpha: AppColor.isDark(context) ? 102 : 88,
+          ),
         ),
         Positioned(
           left: 110,
           top: 520,
           child: _HomeGlow(
             size: 180,
-            color: AppColor.surfaceLavender,
-            alpha: 76,
+            color: AppColor.lavenderSoft(context),
+            alpha: AppColor.isDark(context) ? 96 : 76,
           ),
         ),
       ],

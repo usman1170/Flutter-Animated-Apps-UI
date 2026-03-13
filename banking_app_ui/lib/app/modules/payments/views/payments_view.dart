@@ -13,19 +13,19 @@ class PaymentsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: AppColor.white,
+      backgroundColor: AppColor.screenBackground(context),
       appBar: AppBar(
-        backgroundColor: AppColor.white,
+        backgroundColor: AppColor.screenBackground(context),
         elevation: 0,
         scrolledUnderElevation: 0,
         toolbarHeight: 72,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Payments',
           style: TextStyle(
             fontSize: 19,
             fontWeight: FontWeight.w600,
-            color: AppColor.textStrong,
+            color: AppColor.primaryLabel(context),
           ),
         ),
         actions: [
@@ -34,15 +34,15 @@ class PaymentsView extends StatelessWidget {
             child: Container(
               width: 44,
               height: 44,
-              decoration: const BoxDecoration(
-                color: AppColor.surfaceMuted,
+              decoration: BoxDecoration(
+                color: AppColor.mutedSurface(context),
                 shape: BoxShape.circle,
               ),
-              child: const Center(
+              child: Center(
                 child: Icon(
                   LucideIcons.moreVertical,
                   size: 22,
-                  color: AppColor.iconDark,
+                  color: AppColor.primaryLabel(context),
                 ),
               ),
             ),

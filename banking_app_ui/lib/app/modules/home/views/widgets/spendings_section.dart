@@ -20,7 +20,7 @@ class SpendingsSection extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
-                  color: AppColor.primaryText,
+                  color: AppColor.primaryLabel(context),
                 ),
               ),
               Text(
@@ -28,7 +28,7 @@ class SpendingsSection extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: AppColor.accentBlue,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ],
@@ -42,6 +42,7 @@ class SpendingsSection extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             children: [
               _buildSpendingCard(
+                context,
                 LucideIcons.refreshCw,
                 AppColor.spendingPurple,
                 AppColor.spendingPurpleIcon,
@@ -50,6 +51,7 @@ class SpendingsSection extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               _buildSpendingCard(
+                context,
                 LucideIcons.arrowUpRight,
                 AppColor.spendingBlue,
                 AppColor.spendingBlueIcon,
@@ -58,6 +60,7 @@ class SpendingsSection extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               _buildSpendingCard(
+                context,
                 LucideIcons.globe,
                 AppColor.spendingGreen,
                 AppColor.spendingGreenIcon,
@@ -72,6 +75,7 @@ class SpendingsSection extends StatelessWidget {
   }
 
   Widget _buildSpendingCard(
+    BuildContext context,
     IconData icon,
     Color bgColor,
     Color iconColor,
@@ -82,7 +86,7 @@ class SpendingsSection extends StatelessWidget {
       width: 140,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColor.scaffoldBg,
+        color: AppColor.softSurface(context),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -103,7 +107,7 @@ class SpendingsSection extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: AppColor.primaryText,
+              color: AppColor.primaryLabel(context),
             ),
           ),
           const SizedBox(height: 2),
@@ -112,7 +116,7 @@ class SpendingsSection extends StatelessWidget {
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w400,
-              color: AppColor.secondaryText,
+              color: AppColor.secondaryLabel(context),
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,

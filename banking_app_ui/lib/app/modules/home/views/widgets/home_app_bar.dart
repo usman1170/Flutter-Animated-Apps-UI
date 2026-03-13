@@ -16,7 +16,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     final tabsController = Get.find<TabsController>();
 
     return AppBar(
-      backgroundColor: AppColor.homeBg,
+      backgroundColor: AppColor.screenBackground(context),
       elevation: 0,
       scrolledUnderElevation: 0,
       automaticallyImplyLeading: false,
@@ -58,10 +58,27 @@ class _CircleAction extends StatelessWidget {
         width: 52,
         height: 52,
         decoration: const BoxDecoration(
-          color: AppColor.surfaceMuted,
+          color: AppColor.transparent,
           shape: BoxShape.circle,
         ),
-        child: Center(child: Icon(icon, size: 24, color: AppColor.textMid)),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: AppColor.mutedSurface(context),
+            shape: BoxShape.circle,
+            boxShadow: AppColor.isDark(context)
+                ? [
+                    BoxShadow(
+                      color: AppColor.heroGlowColor(context).withAlpha(28),
+                      blurRadius: 18,
+                      spreadRadius: -2,
+                    ),
+                  ]
+                : null,
+          ),
+          child: Center(
+            child: Icon(icon, size: 24, color: AppColor.primaryLabel(context)),
+          ),
+        ),
       ),
     );
   }

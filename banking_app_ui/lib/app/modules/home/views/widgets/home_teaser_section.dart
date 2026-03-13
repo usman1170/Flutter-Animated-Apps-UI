@@ -42,15 +42,15 @@ class _HiddenSummary extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
-              color: AppColor.white,
+              color: AppColor.elevatedSurface(context),
               borderRadius: BorderRadius.circular(22),
             ),
             child: Row(
-              children: const [
+              children: [
                 Icon(
                   LucideIcons.sparkles,
                   size: 20,
-                  color: AppColor.paymentsBlue,
+                  color: AppColor.accentBlue,
                 ),
                 SizedBox(width: 10),
                 Expanded(
@@ -59,7 +59,7 @@ class _HiddenSummary extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
-                      color: AppColor.textMid,
+                      color: AppColor.primaryLabel(context),
                     ),
                   ),
                 ),
@@ -103,12 +103,12 @@ class _VisibleSummary extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: AppColor.white,
+          color: AppColor.elevatedSurface(context),
           borderRadius: BorderRadius.circular(22),
         ),
-        child: const Row(
+        child: Row(
           children: [
-            Icon(LucideIcons.sparkles, size: 18, color: AppColor.paymentsBlue),
+            Icon(LucideIcons.sparkles, size: 18, color: AppColor.accentBlue),
             SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -116,7 +116,7 @@ class _VisibleSummary extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: AppColor.textMid,
+                  color: AppColor.primaryLabel(context),
                 ),
               ),
             ),
@@ -148,7 +148,7 @@ class _TeaserCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColor.white,
+          color: AppColor.elevatedSurface(context),
           borderRadius: BorderRadius.circular(24),
         ),
         child: Column(
@@ -158,19 +158,19 @@ class _TeaserCard extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: AppColor.textStrong,
+                color: AppColor.primaryLabel(context),
               ),
             ),
             const SizedBox(height: 4),
             Text(
               subtitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                color: AppColor.secondaryText,
+                color: AppColor.secondaryLabel(context),
               ),
             ),
           ],

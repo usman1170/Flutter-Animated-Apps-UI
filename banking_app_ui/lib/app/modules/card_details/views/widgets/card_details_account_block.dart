@@ -15,63 +15,177 @@ class CardDetailsAccountBlock extends GetView<CardDetailsController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Account Details',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              color: AppColor.textStrong,
+              color: AppColor.primaryLabel(context),
             ),
           ),
           const SizedBox(height: 16),
-          _detailTile('Credit Limit', '\$ 3,000'),
+          _detailTile(context, controller.limitLabel, controller.limitValue),
           const SizedBox(height: 10),
-          _detailTile('Debt', '\$ 459.95'),
+          _detailTile(context, controller.debtLabel, controller.debtValue),
           const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(
-              color: AppColor.surfaceSoft,
+              color: AppColor.softSurface(context),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Obx(
               () => Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'Freeze Account',
+                      controller.freezeLabel,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: AppColor.textStrong,
+                        color: AppColor.primaryLabel(context),
                       ),
                     ),
                   ),
-                  Switch(
-                    value: controller.isFrozen.value,
-                    onChanged: controller.toggleFreeze,
-                    activeThumbColor: AppColor.white,
-                    activeTrackColor: AppColor.paymentsBlue,
-                    inactiveThumbColor: AppColor.white,
-                    inactiveTrackColor: AppColor.mutedBorder,
+                  GestureDetector(
+                    onTap: () =>
+                        controller.toggleFreeze(!controller.isFrozen.value),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 220),
+                      curve: Curves.easeOutCubic,
+                      width: 70,
+                      height: 40,
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        gradient: controller.isFrozen.value
+                            ? LinearGradient(
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                                colors: controller.isCredit
+                                    ? const [
+                                        AppColor.paymentsBlue,
+                                        AppColor.accentBlue,
+                                      ]
+                                    : const [
+                                        AppColor.paymentsMint,
+                                        AppColor.successGreen,
+                                      ],
+                              )
+                            : null,
+                        color: controller.isFrozen.value
+                            ? null
+                            : AppColor.mutedSurface(context),
+                        borderRadius: BorderRadius.circular(999),
+                        border: Border.all(
+                          color: controller.isFrozen.value
+                              ? AppColor.transparent
+                              : AppColor.transparent,
+                          width: 1.2,
+                        ),
+                        boxShadow: controller.isFrozen.value
+                            ? [
+                                BoxShadow(
+                                  color:
+                                      (controller.isCredit
+                                              ? AppColor.paymentsBlue
+                                              : AppColor.paymentsMint)
+                                          .withAlpha(70),
+                                  blurRadius: 18,
+                                  offset: const Offset(0, 8),
+                                ),
+                              ]
+                            : [
+                                BoxShadow(
+                                  color: AppColor.elevatedSurface(
+                                    context,
+                                  ).withAlpha(180),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 1),
+                                  spreadRadius: -2,
+                                ),
+                              ],
+                      ),
+                      child: Stack(
+                        children: [
+                          if (!controller.isFrozen.value)
+                            Positioned.fill(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 11,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      width: 12,
+                                      height: 12,
+                                      decoration: BoxDecoration(
+                                        color: AppColor.tertiaryLabel(context),
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          AnimatedAlign(
+                            duration: const Duration(milliseconds: 220),
+                            curve: Curves.easeOutCubic,
+                            alignment: controller.isFrozen.value
+                                ? Alignment.centerRight
+                                : Alignment.centerLeft,
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                color: AppColor.elevatedSurface(context),
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: controller.isFrozen.value
+                                        ? AppColor.black.withAlpha(26)
+                                        : AppColor.black.withAlpha(14),
+                                    blurRadius: controller.isFrozen.value
+                                        ? 10
+                                        : 14,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Icon(
+                                controller.isFrozen.value
+                                    ? Icons.lock
+                                    : Icons.lock_open_rounded,
+                                size: 16,
+                                color: controller.isFrozen.value
+                                    ? (controller.isCredit
+                                          ? AppColor.paymentsBlue
+                                          : AppColor.paymentsMint)
+                                    : AppColor.tertiaryLabel(context),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
           const SizedBox(height: 10),
-          _arrowTile('Limits'),
+          _arrowTile(context, 'Limits'),
           const SizedBox(height: 10),
-          _arrowTile('Terms and Conditions'),
+          _arrowTile(context, 'Terms and Conditions'),
           const SizedBox(height: 10),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
             decoration: BoxDecoration(
-              color: AppColor.surfaceSoft,
+              color: AppColor.softSurface(context),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
-              children: const [
+              children: [
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,16 +195,16 @@ class CardDetailsAccountBlock extends GetView<CardDetailsController> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: AppColor.textStrong,
+                          color: AppColor.primaryLabel(context),
                         ),
                       ),
-                      SizedBox(height: 6),
+                      const SizedBox(height: 6),
                       Text(
-                        'Share a PDF-file with bank details',
+                        controller.detailsShareText,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
-                          color: AppColor.secondaryText,
+                          color: AppColor.secondaryLabel(context),
                         ),
                       ),
                     ],
@@ -99,7 +213,7 @@ class CardDetailsAccountBlock extends GetView<CardDetailsController> {
                 Icon(
                   LucideIcons.externalLink,
                   size: 22,
-                  color: AppColor.iconGrey,
+                  color: AppColor.tertiaryLabel(context),
                 ),
               ],
             ),
@@ -109,11 +223,11 @@ class CardDetailsAccountBlock extends GetView<CardDetailsController> {
     );
   }
 
-  Widget _detailTile(String label, String value) {
+  Widget _detailTile(BuildContext context, String label, String value) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 18),
       decoration: BoxDecoration(
-        color: AppColor.surfaceSoft,
+        color: AppColor.softSurface(context),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -121,19 +235,19 @@ class CardDetailsAccountBlock extends GetView<CardDetailsController> {
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: AppColor.textStrong,
+                color: AppColor.primaryLabel(context),
               ),
             ),
           ),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: AppColor.secondaryText,
+              color: AppColor.secondaryLabel(context),
             ),
           ),
         ],
@@ -141,11 +255,11 @@ class CardDetailsAccountBlock extends GetView<CardDetailsController> {
     );
   }
 
-  Widget _arrowTile(String label) {
+  Widget _arrowTile(BuildContext context, String label) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 18),
       decoration: BoxDecoration(
-        color: AppColor.surfaceSoft,
+        color: AppColor.softSurface(context),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -153,17 +267,17 @@ class CardDetailsAccountBlock extends GetView<CardDetailsController> {
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: AppColor.textStrong,
+                color: AppColor.primaryLabel(context),
               ),
             ),
           ),
-          const Icon(
+          Icon(
             LucideIcons.chevronRight,
             size: 22,
-            color: AppColor.iconGrey,
+            color: AppColor.tertiaryLabel(context),
           ),
         ],
       ),

@@ -17,14 +17,16 @@ class TabsBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: AppColor.white.withAlpha(242),
+        color: AppColor.elevatedSurface(
+          context,
+        ).withAlpha(AppColor.isDark(context) ? 232 : 242),
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: AppColor.black.withAlpha(14),
-            blurRadius: 18,
+            color: AppColor.black.withAlpha(AppColor.isDark(context) ? 52 : 14),
+            blurRadius: AppColor.isDark(context) ? 28 : 18,
             offset: const Offset(0, 8),
           ),
         ],
@@ -77,10 +79,12 @@ class _NavItem extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 260),
         curve: Curves.easeOutCubic,
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
         decoration: BoxDecoration(
           color: isActive
-              ? AppColor.paymentsBlue.withAlpha(26)
+              ? Theme.of(context).colorScheme.primary.withAlpha(
+                  AppColor.isDark(context) ? 56 : 26,
+                )
               : AppColor.transparent,
           borderRadius: BorderRadius.circular(22),
         ),
@@ -91,8 +95,8 @@ class _NavItem extends StatelessWidget {
               icon,
               size: 22,
               color: isActive
-                  ? AppColor.paymentsBlue
-                  : AppColor.bottomNavInactive,
+                  ? Theme.of(context).colorScheme.primary
+                  : AppColor.navInactive(context),
             ),
             const SizedBox(height: 5),
             Text(
@@ -101,8 +105,8 @@ class _NavItem extends StatelessWidget {
                 fontSize: 11,
                 fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
                 color: isActive
-                    ? AppColor.paymentsBlue
-                    : AppColor.bottomNavInactive,
+                    ? Theme.of(context).colorScheme.primary
+                    : AppColor.navInactive(context),
               ),
             ),
           ],

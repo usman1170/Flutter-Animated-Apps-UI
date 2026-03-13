@@ -2,12 +2,63 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../controllers/card_details_controller.dart';
 
 class CardDetailsSpendingSection extends StatelessWidget {
-  const CardDetailsSpendingSection({super.key});
+  final CardDetailsController controller;
+
+  const CardDetailsSpendingSection({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
+    final items = controller.isCredit
+        ? const [
+            (
+              LucideIcons.history,
+              AppColor.surfaceLavender,
+              AppColor.paymentsBlue,
+              '\$ 10,000',
+              'All Transactions',
+            ),
+            (
+              LucideIcons.creditCard,
+              AppColor.spendingPurple,
+              AppColor.spendingPurpleIcon,
+              '\$ 1,456',
+              'Transferred',
+            ),
+            (
+              LucideIcons.globe,
+              AppColor.surfaceMint,
+              AppColor.paymentsMint,
+              '\$ 271',
+              'Online Shopping',
+            ),
+          ]
+        : const [
+            (
+              LucideIcons.shoppingBag,
+              AppColor.surfaceLavender,
+              AppColor.paymentsBlue,
+              '\$ 840',
+              'Card Purchases',
+            ),
+            (
+              LucideIcons.wallet,
+              AppColor.spendingPurple,
+              AppColor.spendingPurpleIcon,
+              '\$ 220',
+              'ATM Cash Out',
+            ),
+            (
+              LucideIcons.badgeDollarSign,
+              AppColor.surfaceMint,
+              AppColor.paymentsMint,
+              '\$ 1,240',
+              'Salary Inflow',
+            ),
+          ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -15,13 +66,13 @@ class CardDetailsSpendingSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
+            children: [
               Text(
                 'Spendings in April',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: AppColor.textStrong,
+                  color: AppColor.primaryLabel(context),
                 ),
               ),
               Text(
@@ -29,7 +80,7 @@ class CardDetailsSpendingSection extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: AppColor.paymentsBlue,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ],
@@ -41,30 +92,17 @@ class CardDetailsSpendingSection extends StatelessWidget {
           child: ListView(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            children: const [
-              _SpendCard(
-                icon: LucideIcons.history,
-                iconBg: AppColor.surfaceLavender,
-                iconColor: AppColor.paymentsBlue,
-                amount: '\$ 10,000',
-                label: 'All Transactions',
-              ),
-              SizedBox(width: 12),
-              _SpendCard(
-                icon: LucideIcons.creditCard,
-                iconBg: AppColor.spendingPurple,
-                iconColor: AppColor.spendingPurpleIcon,
-                amount: '\$ 1,456',
-                label: 'Transferred',
-              ),
-              SizedBox(width: 12),
-              _SpendCard(
-                icon: LucideIcons.globe,
-                iconBg: AppColor.surfaceMint,
-                iconColor: AppColor.paymentsMint,
-                amount: '\$ 271',
-                label: 'Online Shopping',
-              ),
+            children: [
+              for (var index = 0; index < items.length; index++) ...[
+                _SpendCard(
+                  icon: items[index].$1,
+                  iconBg: items[index].$2,
+                  iconColor: items[index].$3,
+                  amount: items[index].$4,
+                  label: items[index].$5,
+                ),
+                if (index != items.length - 1) const SizedBox(width: 12),
+              ],
             ],
           ),
         ),
@@ -94,7 +132,7 @@ class _SpendCard extends StatelessWidget {
       width: 146,
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: AppColor.surfaceSoft,
+        color: AppColor.softSurface(context),
         borderRadius: BorderRadius.circular(24),
       ),
       child: Column(
@@ -112,19 +150,19 @@ class _SpendCard extends StatelessWidget {
           const Spacer(),
           Text(
             amount,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: AppColor.textStrong,
+              color: AppColor.primaryLabel(context),
             ),
           ),
           const SizedBox(height: 4),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: AppColor.secondaryText,
+              color: AppColor.secondaryLabel(context),
             ),
           ),
         ],

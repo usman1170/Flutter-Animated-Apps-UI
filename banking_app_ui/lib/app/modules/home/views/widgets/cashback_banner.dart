@@ -12,7 +12,7 @@ class CashbackBanner extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
         decoration: BoxDecoration(
-          color: AppColor.scaffoldBg,
+          color: AppColor.softSurface(context),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
@@ -25,7 +25,7 @@ class CashbackBanner extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: AppColor.primaryText,
+                  color: AppColor.primaryLabel(context),
                   height: 1.4,
                 ),
               ),
@@ -52,7 +52,7 @@ class CashbackBanner extends StatelessWidget {
             Icon(
               LucideIcons.chevronRight,
               size: 20,
-              color: AppColor.secondaryText,
+              color: AppColor.secondaryLabel(context),
             ),
           ],
         ),

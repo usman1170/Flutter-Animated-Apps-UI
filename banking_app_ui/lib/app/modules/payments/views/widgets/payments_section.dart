@@ -27,18 +27,18 @@ class PaymentsSection extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: AppColor.textStrong,
+                  color: AppColor.primaryLabel(context),
                 ),
               ),
               Text(
                 actionLabel,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: AppColor.paymentsBlue,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ],
@@ -83,7 +83,7 @@ class _PaymentCard extends StatelessWidget {
       width: 118,
       padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
       decoration: BoxDecoration(
-        color: AppColor.surfaceSoft,
+        color: AppColor.softSurface(context),
         borderRadius: BorderRadius.circular(22),
       ),
       child: Column(
@@ -97,11 +97,11 @@ class _PaymentCard extends StatelessWidget {
           const SizedBox(height: 28),
           Text(
             item.label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
               height: 1.3,
               fontWeight: FontWeight.w500,
-              color: AppColor.textStrong,
+              color: AppColor.primaryLabel(context),
             ),
           ),
         ],

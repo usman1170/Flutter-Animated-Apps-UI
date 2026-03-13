@@ -11,26 +11,28 @@ class BalanceHeroSection extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = AppColor.isDark(context);
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Hello',
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w400,
-              color: AppColor.secondaryText,
+              color: AppColor.secondaryLabel(context),
             ),
           ),
           const SizedBox(height: 6),
-          const Text(
+          Text(
             'Usman Ghani',
             style: TextStyle(
               fontSize: 31,
               fontWeight: FontWeight.w700,
-              color: AppColor.textStrong,
+              color: AppColor.primaryLabel(context),
               letterSpacing: -1,
             ),
           ),
@@ -61,16 +63,24 @@ class BalanceHeroSection extends GetView<HomeController> {
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  AppColor.heroGlow.withAlpha(116),
-                                  AppColor.paymentsBlueSoft.withAlpha(76),
-                                  AppColor.surfaceMint.withAlpha(68),
+                                  AppColor.heroGlowColor(
+                                    context,
+                                  ).withAlpha(isDark ? 140 : 116),
+                                  AppColor.blueSoft(
+                                    context,
+                                  ).withAlpha(isDark ? 118 : 76),
+                                  AppColor.mintSoft(
+                                    context,
+                                  ).withAlpha(isDark ? 94 : 68),
                                 ],
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColor.heroGlow.withAlpha(74),
-                                  blurRadius: 70,
-                                  spreadRadius: 10,
+                                  color: AppColor.heroGlowColor(
+                                    context,
+                                  ).withAlpha(isDark ? 120 : 74),
+                                  blurRadius: isDark ? 90 : 70,
+                                  spreadRadius: isDark ? 18 : 10,
                                 ),
                               ],
                             ),

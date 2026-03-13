@@ -15,13 +15,13 @@ class HistorySection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
+            children: [
               Text(
                 'History',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF16181D),
+                  color: AppColor.primaryLabel(context),
                   letterSpacing: -0.5,
                 ),
               ),
@@ -30,7 +30,7 @@ class HistorySection extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF4F97EA),
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ],
@@ -43,7 +43,7 @@ class HistorySection extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 16),
             decoration: BoxDecoration(
-              color: const Color(0xFFF5F5F7),
+              color: AppColor.softSurface(context),
               borderRadius: BorderRadius.circular(24),
             ),
             child: const Column(
@@ -121,14 +121,14 @@ class _HistoryRow extends StatelessWidget {
   final String title;
   final String subtitle;
   final String amount;
-  final Color amountColor;
+  final Color? amountColor;
 
   const _HistoryRow({
     required this.leading,
     required this.title,
     required this.subtitle,
     required this.amount,
-    this.amountColor = const Color(0xFF1E2127),
+    this.amountColor,
   });
 
   @override
@@ -143,20 +143,20 @@ class _HistoryRow extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF1E2127),
+                  color: AppColor.primaryLabel(context),
                   letterSpacing: -0.3,
                 ),
               ),
               const SizedBox(height: 3),
               Text(
                 subtitle,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: Color(0xFF7B7C80),
+                  color: AppColor.secondaryLabel(context),
                 ),
               ),
             ],
@@ -168,7 +168,7 @@ class _HistoryRow extends StatelessWidget {
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w700,
-            color: amountColor,
+            color: amountColor ?? AppColor.primaryLabel(context),
             letterSpacing: -0.3,
           ),
         ),
@@ -186,14 +186,14 @@ class _IncomingBadge extends StatelessWidget {
       width: 42,
       height: 42,
       decoration: BoxDecoration(
-        color: AppColor.white,
+        color: AppColor.elevatedSurface(context),
         borderRadius: BorderRadius.circular(14),
       ),
-      child: const Center(
+      child: Center(
         child: Icon(
           LucideIcons.arrowDownCircle,
           size: 24,
-          color: Color(0xFF23262B),
+          color: AppColor.primaryLabel(context),
         ),
       ),
     );

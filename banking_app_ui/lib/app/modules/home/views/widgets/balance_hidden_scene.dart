@@ -19,11 +19,6 @@ class BalanceHiddenScene extends StatelessWidget {
             top: 0,
             child: BalanceMiniChip(icon: LucideIcons.sparkles, label: 'Live'),
           ),
-          Positioned(
-            left: 20,
-            bottom: 26,
-            child: BalanceMiniChip(icon: LucideIcons.lock, label: 'Hidden'),
-          ),
         ],
       ),
     );
@@ -42,19 +37,26 @@ class _PreviewPanel extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [AppColor.white, AppColor.paymentsBlueSoft.withAlpha(72)],
+          colors: [
+            AppColor.elevatedSurface(context),
+            AppColor.blueSoft(
+              context,
+            ).withAlpha(AppColor.isDark(context) ? 118 : 72),
+          ],
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColor.heroGlow.withAlpha(88),
-            blurRadius: 52,
-            spreadRadius: 4,
+            color: AppColor.heroGlowColor(
+              context,
+            ).withAlpha(AppColor.isDark(context) ? 122 : 88),
+            blurRadius: AppColor.isDark(context) ? 70 : 52,
+            spreadRadius: AppColor.isDark(context) ? 8 : 4,
             offset: const Offset(-10, 14),
           ),
-          const BoxShadow(
-            color: AppColor.heroCircleShadow,
+          BoxShadow(
+            color: AppColor.heroShadow(context),
             blurRadius: 14,
-            offset: Offset(0, 6),
+            offset: const Offset(0, 6),
           ),
         ],
       ),
@@ -80,37 +82,37 @@ class _PreviewCopy extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
           decoration: BoxDecoration(
-            color: AppColor.surfaceLavender,
+            color: AppColor.lavenderSoft(context),
             borderRadius: BorderRadius.circular(16),
           ),
-          child: const Text(
+          child: Text(
             'USBank Preview',
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w700,
-              color: AppColor.paymentsBlue,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
         ),
         const SizedBox(height: 18),
-        const Text(
+        Text(
           'Unlock your\nmoney view',
           style: TextStyle(
             fontSize: 24,
             height: 1.05,
             fontWeight: FontWeight.w700,
-            color: AppColor.textStrong,
+            color: AppColor.primaryLabel(context),
             letterSpacing: -0.6,
           ),
         ),
         const SizedBox(height: 10),
-        const Text(
+        Text(
           'See cards, cash flow and recent activity with one tap.',
           style: TextStyle(
             fontSize: 13,
             height: 1.35,
             fontWeight: FontWeight.w500,
-            color: AppColor.secondaryText,
+            color: AppColor.secondaryLabel(context),
           ),
         ),
         const Spacer(),

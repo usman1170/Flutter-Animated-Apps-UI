@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'app/core/theme/app_appearance_controller.dart';
 import 'app/core/theme/app_theme.dart';
 import 'app/routes/app_pages.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  final appearanceController = Get.put(
+    AppAppearanceController(prefs),
+    permanent: true,
+  );
+  await appearanceController.init();
   runApp(const MyApp());
 }
 
@@ -12,12 +21,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Banking App',
-      theme: AppTheme.lightTheme,
-      initialRoute: AppPages.INITIAL,
-      getPages: AppPages.routes,
-      debugShowCheckedModeBanner: false,
+    final appearanceController = Get.find<AppAppearanceController>();
+
+    return Obx(
+      () => GetMaterialApp(
+        title: 'Banking App',
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: appearanceController.themeMode.value,
+        initialRoute: AppPages.INITIAL,
+        getPages: AppPages.routes,
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

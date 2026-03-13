@@ -13,12 +13,12 @@ class PaymentsFavoritesPanel extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Favorites',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
-              color: AppColor.textStrong,
+              color: AppColor.primaryLabel(context),
             ),
           ),
           const SizedBox(height: 16),
@@ -26,7 +26,7 @@ class PaymentsFavoritesPanel extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.fromLTRB(10, 14, 10, 10),
             decoration: BoxDecoration(
-              color: AppColor.surfaceSoft,
+              color: AppColor.softSurface(context),
               borderRadius: BorderRadius.circular(24),
             ),
             child: Column(
@@ -121,10 +121,10 @@ class _FavoriteItem extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: AppColor.textMid,
+              color: AppColor.primaryLabel(context),
             ),
             textAlign: TextAlign.center,
           ),
@@ -149,17 +149,17 @@ class _FavoriteAvatar extends StatelessWidget {
           Container(
             width: 60,
             height: 60,
-            decoration: const BoxDecoration(
-              color: AppColor.surfaceMuted,
+            decoration: BoxDecoration(
+              color: AppColor.mutedSurface(context),
               shape: BoxShape.circle,
             ),
             child: Center(
               child: Text(
                 label,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w500,
-                  color: AppColor.textStrong,
+                  color: AppColor.primaryLabel(context),
                 ),
               ),
             ),
@@ -167,10 +167,10 @@ class _FavoriteAvatar extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             name,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: AppColor.textMid,
+              color: AppColor.primaryLabel(context),
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -197,20 +197,20 @@ class _ActionPill extends StatelessWidget {
         Container(
           height: 50,
           decoration: BoxDecoration(
-            color: AppColor.surfaceMuted,
+            color: AppColor.mutedSurface(context),
             borderRadius: BorderRadius.circular(18),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, size: 22, color: AppColor.iconDark),
+              Icon(icon, size: 22, color: AppColor.primaryLabel(context)),
               const SizedBox(width: 10),
               Text(
                 label,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
-                  color: AppColor.textStrong,
+                  color: AppColor.primaryLabel(context),
                 ),
               ),
             ],
