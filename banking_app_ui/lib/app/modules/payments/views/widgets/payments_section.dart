@@ -87,6 +87,9 @@ enum PaymentSectionAction {
   transferBetweenAccounts,
   transferByCardNumber,
   transferByAccountDetails,
+  phoneBills,
+  internetTv,
+  housingUtilities,
 }
 
 class _PaymentCard extends StatelessWidget {

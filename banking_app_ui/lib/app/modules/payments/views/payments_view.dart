@@ -87,21 +87,25 @@ class PaymentsView extends StatelessWidget {
               const SizedBox(height: 18),
               const PaymentsBanner(),
               const SizedBox(height: 20),
-              const PaymentsSection(
+              PaymentsSection(
                 title: 'Payments',
                 actionLabel: 'All',
+                onItemTap: _handleTransferAction,
                 items: [
-                  PaymentSectionItem(
+                  const PaymentSectionItem(
                     iconKey: PaymentSectionIcon.phone,
                     label: 'Phone Bills',
+                    action: PaymentSectionAction.phoneBills,
                   ),
-                  PaymentSectionItem(
+                  const PaymentSectionItem(
                     iconKey: PaymentSectionIcon.internet,
                     label: 'Internet & TV',
+                    action: PaymentSectionAction.internetTv,
                   ),
-                  PaymentSectionItem(
+                  const PaymentSectionItem(
                     iconKey: PaymentSectionIcon.home,
                     label: 'Housing and\nutilities',
+                    action: PaymentSectionAction.housingUtilities,
                   ),
                 ],
               ),
@@ -121,9 +125,24 @@ class PaymentsView extends StatelessWidget {
         TransferFlowType.byCardNumber,
       PaymentSectionAction.transferByAccountDetails =>
         TransferFlowType.byAccountDetails,
+      PaymentSectionAction.phoneBills => null,
+      PaymentSectionAction.internetTv => null,
+      PaymentSectionAction.housingUtilities => null,
       PaymentSectionAction.none => null,
     };
 
+    if (item.action == PaymentSectionAction.phoneBills) {
+      Get.toNamed(Routes.PHONE_BILLS);
+      return;
+    }
+    if (item.action == PaymentSectionAction.internetTv) {
+      Get.toNamed(Routes.INTERNET_TV);
+      return;
+    }
+    if (item.action == PaymentSectionAction.housingUtilities) {
+      Get.toNamed(Routes.HOUSING_UTILITIES);
+      return;
+    }
     if (flowType == null) return;
 
     Get.toNamed(Routes.TRANSFER_FLOW, arguments: flowType);
