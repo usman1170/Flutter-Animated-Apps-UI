@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:model_viewer_plus/model_viewer_plus.dart';
 
 import '../../../lobby/controllers/lobby_controller.dart';
 
 import '../../../../core/theme/app_colors.dart';
-import 'arc_progress_painter.dart';
+import 'avatar_model_stage.dart';
 import 'avatar_creator_view.dart';
 import 'goal_streak_panel.dart';
 import 'locker_section.dart';
+import 'profile_stat_badge.dart';
 
 class ProfileAvatarSection extends StatefulWidget {
   const ProfileAvatarSection({required this.isGoalMode, super.key});
@@ -88,15 +88,9 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection> {
                           _lobbyController.selectedAvatarPath.value.isEmpty
                           ? _defaultAvatarUrl
                           : _lobbyController.selectedAvatarPath.value;
-                      return ModelViewer(
-                        key: ValueKey(avatarPath),
-                        backgroundColor: Colors.transparent,
-                        src: avatarPath,
-                        alt: 'A 3D model of a rigged human',
-                        ar: false,
-                        autoRotate: !goalMode,
-                        cameraControls: true,
-                        disableZoom: true,
+                      return AvatarModelStage(
+                        avatarPath: avatarPath,
+                        goalMode: goalMode,
                       );
                     }),
                   ),
@@ -249,36 +243,6 @@ class _ProfileAvatarSectionState extends State<ProfileAvatarSection> {
   }
 
   Widget _buildCircledStat(IconData icon, String label, double progress) {
-    return Column(
-      children: [
-        SizedBox(
-          width: 68,
-          height: 68,
-          child: Padding(
-            padding: const EdgeInsets.all(2),
-            child: CustomPaint(
-              painter: ArcProgressPainter(progress: progress),
-              child: Container(
-                margin: const EdgeInsets.all(5),
-                decoration: const BoxDecoration(
-                  color: AppColors.cardBackground,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, color: AppColors.accent, size: 30),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          label,
-          style: const TextStyle(
-            color: AppColors.textSecondary,
-            fontSize: 11,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
-    );
+    return ProfileStatBadge(icon: icon, label: label, progress: progress);
   }
 }
